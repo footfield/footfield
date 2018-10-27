@@ -21,24 +21,28 @@ public class InformationUserActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 100;
     ImageView imgView;
-    Button btnChooseImg, btnSetting, btnUpdate;
+    Button btnChooseImg, btnSetting, btnUpdate, btnChangePass;
     Uri imgUri;
-    EditText edtNameUpdate, edtPhoneUpdate, edtAddressUpdate, edtPassUpdate;
+    EditText edtFirstNameUpdate, edtLastNameUpdate, edtPhoneUpdate, edtAddressUpdate, edtPassUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information_user);
 
-        RegisterVM test = new RegisterVM("khoa", "123", null, null,
+        RegisterVM test = new RegisterVM("khoa", "123", "khoa", "bach",
                 "bkhoa0401@gmail.com", "olala", "0905040197");
 
         imgView = findViewById(R.id.imgAvatar);
         btnChooseImg = findViewById(R.id.btnChooseFile);
 
-        edtNameUpdate = findViewById(R.id.edtNameUpdate);
-        edtNameUpdate.setText(test.getUsername());
-        edtNameUpdate.setEnabled(false);
+        edtFirstNameUpdate = findViewById(R.id.edtFirstNameUpdate);
+        edtFirstNameUpdate.setText(test.getFirstname());
+        edtFirstNameUpdate.setEnabled(false);
+
+        edtLastNameUpdate = findViewById(R.id.edtLastNameUpdate);
+        edtLastNameUpdate.setText(test.getLastname());
+        edtLastNameUpdate.setEnabled(false);
 
         edtPhoneUpdate = findViewById(R.id.edtPhoneUpdate);
         edtPhoneUpdate.setText(test.getPhone());
@@ -49,9 +53,9 @@ public class InformationUserActivity extends AppCompatActivity {
         edtAddressUpdate.setEnabled(false);
 
 
-        edtPassUpdate = findViewById(R.id.edtPassUpdate);
-        edtPassUpdate.setText(test.getPassword());
-        edtPassUpdate.setEnabled(false);
+//        edtPassUpdate = findViewById(R.id.edtPassUpdate);
+//        edtPassUpdate.setText(test.getPassword());
+//        edtPassUpdate.setEnabled(false);
 
         btnChooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +68,11 @@ public class InformationUserActivity extends AppCompatActivity {
         btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edtNameUpdate.setEnabled(true);
+                edtFirstNameUpdate.setEnabled(true);
+                edtLastNameUpdate.setEnabled(true);
                 edtPhoneUpdate.setEnabled(true);
                 edtAddressUpdate.setEnabled(true);
-                edtPassUpdate.setEnabled(true);
+                //  edtPassUpdate.setEnabled(true);
                 btnUpdate.setVisibility(View.VISIBLE);
             }
         });
@@ -75,6 +80,17 @@ public class InformationUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 checkValidInfor();
+            }
+        });
+
+        btnChangePass = findViewById(R.id.btnChangePass);
+        final String pass = test.getPassword();
+        btnChangePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+                intent.putExtra("pass", pass);
+                startActivity(intent);
             }
         });
 
@@ -104,22 +120,15 @@ public class InformationUserActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean checkValidPass(String pass) {
-        String pattern = "\\w{6,15}";
-        if (!pass.matches(pattern)) {
-            return false;
-        }
-        return true;
-    }
 
     public void checkValidInfor() {
-        boolean checkName = checkValidName(edtNameUpdate.getText().toString());
+        boolean checkFirstName = checkValidName(edtFirstNameUpdate.getText().toString());
+        boolean checkLastName = checkValidName(edtLastNameUpdate.getText().toString());
         boolean checkPhone = checkValidPhone(edtPhoneUpdate.getText().toString());
-        boolean checkPass = checkValidPass(edtPassUpdate.getText().toString());
         boolean checkLocation = checkValidLocation(edtAddressUpdate.getText().toString());
         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(InformationUserActivity.this);
-        if (checkName == false) {
-            dlgAlert.setMessage("Name cann't null!!!");
+        if (checkFirstName == false || checkLastName == false) {
+            dlgAlert.setMessage("First name  or Last name cann't null!!!");
             dlgAlert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -127,7 +136,7 @@ public class InformationUserActivity extends AppCompatActivity {
                         }
                     });
             dlgAlert.create().show();
-            edtNameUpdate.requestFocus();
+            edtFirstNameUpdate.requestFocus();
         } else {
             if (checkPhone == false) {
                 dlgAlert.setMessage("Phone must 10 numbers!!!");
@@ -153,28 +162,14 @@ public class InformationUserActivity extends AppCompatActivity {
                     edtAddressUpdate.requestFocus();
                     return;
                 } else {
-                    if (checkPass == false) {
-                        dlgAlert.setMessage("Password must 6-15 character!!!");
-                        dlgAlert.setPositiveButton("Ok",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //dismiss the dialog
-                                    }
-                                });
-                        dlgAlert.create().show();
-                        edtPassUpdate.requestFocus();
-                        return;
-                    } else {
-                        // can 1 field de luu hinh khi update
-                        RegisterVM register = new RegisterVM(edtNameUpdate.getText().toString(), edtPassUpdate.getText().toString(),
-                                null, null, null, edtAddressUpdate.getText().toString(), edtPhoneUpdate.getText().toString());
-                        Toast.makeText(InformationUserActivity.this, "OK", Toast.LENGTH_SHORT).show();
-                    }
+                    // can 1 field de luu hinh khi update
+                    RegisterVM register = new RegisterVM(null, edtPassUpdate.getText().toString(),
+                            edtFirstNameUpdate.getText().toString(), edtLastNameUpdate.getText().toString(), null, edtAddressUpdate.getText().toString(), edtPhoneUpdate.getText().toString());
+                    Toast.makeText(InformationUserActivity.this, "OK", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
-
     private void openGallery() {
         Intent open = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(open, PICK_IMAGE);

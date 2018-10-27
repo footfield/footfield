@@ -24,7 +24,7 @@
         android:text="Choose file" />
 
     <EditText
-        android:id="@+id/edtNameUpdate"
+        android:id="@+id/edtFirstNameUpdate"
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
@@ -32,16 +32,27 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/name"
-        android:hint=" Name"
+        android:hint=" First Name"
         android:paddingLeft="5dp" />
 
+    <EditText
+        android:id="@+id/edtLastNameUpdate"
+        android:layout_width="384dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="316dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/boder"
+        android:drawableLeft="@drawable/name"
+        android:hint=" Last Name"
+        android:paddingLeft="5dp" />
 
     <EditText
         android:id="@+id/edtPhoneUpdate"
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="376dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/phone"
@@ -53,25 +64,14 @@
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="382dp"
+        android:layout_marginTop="436dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/email"
         android:hint="  Address"
         android:paddingLeft="5dp" />
 
-    <EditText
-        android:id="@+id/edtPassUpdate"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="444dp"
-        android:layout_centerHorizontal="true"
-        android:inputType="textPassword"
-        android:background="@drawable/boder"
-        android:drawableLeft="@drawable/password"
-        android:hint="  Password"
-        android:paddingLeft="5dp" />
+
 
     <Button
         android:id="@+id/btnSetting"
@@ -97,4 +97,13 @@
         android:text="Update"
         android:textColor="#FFFFFF" />
 
+    <Button
+        android:id="@+id/btnChangePass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:text="Change Password" />
 </RelativeLayout>

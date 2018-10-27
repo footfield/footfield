@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="khoa.example.com.project_swd_managerfootfield">
+
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,9 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InformationUserActivity" />
+        <activity android:name=".FindPitchActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ForgetPasswordActivity"></activity>
+        <activity android:name=".ForgetPasswordActivity" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>
