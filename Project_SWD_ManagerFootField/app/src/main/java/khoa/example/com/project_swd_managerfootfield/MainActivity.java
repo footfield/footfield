@@ -51,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String username = txtUsername.getText().toString();
                     String password = txtPassword.getText().toString();
-                    LoginVM loginVM = new LoginVM(username, md5(password));
-                    checkUserAndPass(loginVM);
+                    Intent intent=new Intent(MainActivity.this,ManagerActivity.class);
+                    startActivity(intent);
+//                    LoginVM loginVM = new LoginVM(username, md5(password));
+//                    checkUserAndPass(loginVM);
                 }
             });
 
