@@ -28,18 +28,12 @@ public class MainActivity extends AppCompatActivity {
     TextView txtNotification;
 
     DataClient dataClient;
-    Call<Boolean> call;
+    Call<Integer> call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        boolean checkTolenIsLive = checkTokenIsLive();
-        if (checkTolenIsLive == true) {
-            Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
-            startActivity(intent);
-        } else {
+        if (!checkTokenIsLive()) {
             setContentView(R.layout.activity_main);
             txtUsername = findViewById(R.id.txtUsername);
             txtPassword = findViewById(R.id.txtPassword);
@@ -51,10 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     String username = txtUsername.getText().toString();
                     String password = txtPassword.getText().toString();
-                    Intent intent=new Intent(MainActivity.this,ManagerActivity.class);
-                    startActivity(intent);
-//                    LoginVM loginVM = new LoginVM(username, md5(password));
-//                    checkUserAndPass(loginVM);
+                    LoginVM loginVM = new LoginVM(username, md5(password));
+                    checkUserAndPass(loginVM);
                 }
             });
 
@@ -71,13 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean setToken(String username, String password) {
+    public boolean setToken(String username, String password, int userId) {
         LoginVM loginVM = new LoginVM(username, md5(password));
         if (loginVM != null) {
             SharedPreferences share = getSharedPreferences("com.khoa.filetoken", MODE_PRIVATE);
             SharedPreferences.Editor editor = share.edit();
             String token = md5(password);
             editor.putString("token", token);
+            editor.putString("userid", String.valueOf(userId));
             editor.commit();
             return true;
         }
@@ -87,9 +80,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean checkTokenIsLive() {
         SharedPreferences share = getSharedPreferences("com.khoa.filetoken", MODE_PRIVATE);
         String token = share.getString("token", null);
+        String result = share.getString("userid", null);
         if (token == null) {
             return false;
         }
+        Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
+        intent.putExtra("userid", result);
+        startActivity(intent);
         return true;
     }
 
@@ -110,16 +107,17 @@ public class MainActivity extends AppCompatActivity {
     private void checkUserAndPass(final LoginVM loginVM) {
         dataClient = ApiUtils.getData();
         call = dataClient.checkLogin(loginVM);
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if (!response.isSuccessful()) {
                     return;
                 }
-                Boolean result = response.body();
-                if (result) {
-                    setToken(loginVM.getUsername(), loginVM.getPassword());
+                int result = response.body();
+                if (result != 0) {
+                    setToken(loginVM.getUsername(), loginVM.getPassword(), result);
                     Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
+                    intent.putExtra("userid", result+"");
                     startActivity(intent);
                     finish();
                 } else {
@@ -131,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
 
             }
         });

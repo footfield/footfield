@@ -10,11 +10,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
+import khoa.example.com.project_swd_managerfootfield.VM.PasswordChangeVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ChangePasswordActivity extends AppCompatActivity {
 
     EditText edtOldPass, edtNewPass, edtConfirmPass;
     Button btnUpdatePass;
     String pass;
+
+    DataClient dataClient;
+    Call<Boolean> call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +41,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         pass = intent.getStringExtra("pass");
-        edtOldPass.setText(pass);
 
         btnUpdatePass = findViewById(R.id.btnUpdatePass);
 
@@ -40,7 +53,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public boolean checkOldPass(String oldPass) {
-        if (!edtOldPass.getText().toString().equals(oldPass)) {
+        if (!md5(edtOldPass.getText().toString()).equals(oldPass)) {
             return false;
         }
         return true;
@@ -99,11 +112,49 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     dlgAlert.create().show();
                     edtConfirmPass.requestFocus();
                 } else {
-                    //update pass
-                    Toast.makeText(getApplicationContext(), "Change ok", Toast.LENGTH_SHORT).show();
+                    String userId = this.getIntent().getStringExtra("userid");
+                    updatePassword(new PasswordChangeVM(Integer.parseInt(userId), md5(edtNewPass.getText().toString())));
+                    Intent intent = new Intent(ChangePasswordActivity.this, InformationUserActivity.class);
+                    intent.putExtra("userid", userId+"");
+                    startActivity(intent);
                 }
             }
         }
+    }
+
+    private void updatePassword(PasswordChangeVM vm) {
+        dataClient = ApiUtils.getData();
+        call = dataClient.updatePassword(vm);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (!response.isSuccessful()) return;
+                if (response.body()) {
+                    Toast.makeText(getApplicationContext(), "Change success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Change fail!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private static String md5(String str) {
+        String result = "";
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(str.getBytes());
+            BigInteger bigInteger = new BigInteger(1, digest.digest());
+            result = bigInteger.toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

@@ -32,6 +32,8 @@ public class ManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),InformationUserActivity.class);
+                String userId = ManagerActivity.this.getIntent().getStringExtra("userid");
+                intent.putExtra("userid", userId+"");
                 startActivity(intent);
             }
         });

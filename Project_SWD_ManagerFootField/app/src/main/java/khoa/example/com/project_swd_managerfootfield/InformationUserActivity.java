@@ -3,6 +3,8 @@ package khoa.example.com.project_swd_managerfootfield;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -15,7 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import khoa.example.com.project_swd_managerfootfield.VM.RegisterVM;
+import java.io.ByteArrayOutputStream;
+
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
+import khoa.example.com.project_swd_managerfootfield.VM.AppUserVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class InformationUserActivity extends AppCompatActivity {
 
@@ -23,39 +32,46 @@ public class InformationUserActivity extends AppCompatActivity {
     ImageView imgView;
     Button btnChooseImg, btnSetting, btnUpdate, btnChangePass;
     Uri imgUri;
-    EditText edtFirstNameUpdate, edtLastNameUpdate, edtPhoneUpdate, edtAddressUpdate, edtPassUpdate;
+    EditText edtUsername, edtLastNameUpdate, edtPhoneUpdate, edtAddressUpdate;
+
+    AppUserVM userInfoVM;
+    DataClient dataClient;
+    Call<AppUserVM> call;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information_user);
+        loadUserInfo();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    }
 
-        RegisterVM test = new RegisterVM("khoa", "123", "khoa", "bach",
-                "bkhoa0401@gmail.com", "olala", "0905040197");
+    private void loadView() {
 
         imgView = findViewById(R.id.imgAvatar);
+        if (userInfoVM.getImage() != null && !userInfoVM.getImage().equals("")) {
+            imgView.setImageURI(Uri.parse(userInfoVM.getImage()));
+        }
+
         btnChooseImg = findViewById(R.id.btnChooseFile);
 
-        edtFirstNameUpdate = findViewById(R.id.edtFirstNameUpdate);
-        edtFirstNameUpdate.setText(test.getFirstname());
-        edtFirstNameUpdate.setEnabled(false);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtUsername.setText(userInfoVM.getUsername());
+        edtUsername.setEnabled(false);
 
         edtLastNameUpdate = findViewById(R.id.edtLastNameUpdate);
-        edtLastNameUpdate.setText(test.getLastname());
+        edtLastNameUpdate.setText(userInfoVM.getLastname());
         edtLastNameUpdate.setEnabled(false);
 
         edtPhoneUpdate = findViewById(R.id.edtPhoneUpdate);
-        edtPhoneUpdate.setText(test.getPhone());
+        edtPhoneUpdate.setText(userInfoVM.getPhone());
         edtPhoneUpdate.setEnabled(false);
 
         edtAddressUpdate = findViewById(R.id.edtAddressUpdate);
-        edtAddressUpdate.setText(test.getAddress());
+        edtAddressUpdate.setText(userInfoVM.getAddress());
         edtAddressUpdate.setEnabled(false);
 
-
-//        edtPassUpdate = findViewById(R.id.edtPassUpdate);
-//        edtPassUpdate.setText(test.getPassword());
-//        edtPassUpdate.setEnabled(false);
 
         btnChooseImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,16 +79,15 @@ public class InformationUserActivity extends AppCompatActivity {
                 openGallery();
             }
         });
+
         btnUpdate = findViewById(R.id.btnUpdate);
         btnSetting = findViewById(R.id.btnSetting);
         btnSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edtFirstNameUpdate.setEnabled(true);
                 edtLastNameUpdate.setEnabled(true);
                 edtPhoneUpdate.setEnabled(true);
                 edtAddressUpdate.setEnabled(true);
-                //  edtPassUpdate.setEnabled(true);
                 btnUpdate.setVisibility(View.VISIBLE);
             }
         });
@@ -84,17 +99,40 @@ public class InformationUserActivity extends AppCompatActivity {
         });
 
         btnChangePass = findViewById(R.id.btnChangePass);
-        final String pass = test.getPassword();
+        final String pass = userInfoVM.getPassword();
         btnChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
                 intent.putExtra("pass", pass);
+                String userId = InformationUserActivity.this.getIntent().getStringExtra("userid");
+                intent.putExtra("userid", userId+"");
                 startActivity(intent);
             }
         });
+    }
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    private void loadUserInfo() {
+        Intent it = this.getIntent();
+        String userId = it.getStringExtra("userid");
+
+        dataClient = ApiUtils.getData();
+        call = dataClient.getUserInfo(Integer.parseInt(userId));
+        call.enqueue(new Callback<AppUserVM>() {
+            @Override
+            public void onResponse(Call<AppUserVM> call, Response<AppUserVM> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                userInfoVM = response.body();
+                loadView();
+            }
+
+            @Override
+            public void onFailure(Call<AppUserVM> call, Throwable t) {
+
+            }
+        });
     }
 
     public boolean checkValidName(String name) {
@@ -122,13 +160,12 @@ public class InformationUserActivity extends AppCompatActivity {
 
 
     public void checkValidInfor() {
-        boolean checkFirstName = checkValidName(edtFirstNameUpdate.getText().toString());
         boolean checkLastName = checkValidName(edtLastNameUpdate.getText().toString());
         boolean checkPhone = checkValidPhone(edtPhoneUpdate.getText().toString());
         boolean checkLocation = checkValidLocation(edtAddressUpdate.getText().toString());
         AlertDialog.Builder dlgAlert = new AlertDialog.Builder(InformationUserActivity.this);
-        if (checkFirstName == false || checkLastName == false) {
-            dlgAlert.setMessage("First name  or Last name cann't null!!!");
+        if (checkLastName == false) {
+            dlgAlert.setMessage("Last name cann't null!!!");
             dlgAlert.setPositiveButton("Ok",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -136,7 +173,7 @@ public class InformationUserActivity extends AppCompatActivity {
                         }
                     });
             dlgAlert.create().show();
-            edtFirstNameUpdate.requestFocus();
+            edtLastNameUpdate.requestFocus();
         } else {
             if (checkPhone == false) {
                 dlgAlert.setMessage("Phone must 10 numbers!!!");
@@ -163,13 +200,37 @@ public class InformationUserActivity extends AppCompatActivity {
                     return;
                 } else {
                     // can 1 field de luu hinh khi update
-                    RegisterVM register = new RegisterVM(null, edtPassUpdate.getText().toString(),
-                            edtFirstNameUpdate.getText().toString(), edtLastNameUpdate.getText().toString(), null, edtAddressUpdate.getText().toString(), edtPhoneUpdate.getText().toString());
-                    Toast.makeText(InformationUserActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                    userInfoVM.setLastname(edtLastNameUpdate.getText().toString());
+                    userInfoVM.setPhone(edtPhoneUpdate.getText().toString());
+                    userInfoVM.setAddress(edtAddressUpdate.getText().toString());
+                    if (imgUri !=null ){
+                        userInfoVM.setImage(imgUri.toString());
+                    }
+                    updateUser();
                 }
             }
         }
     }
+
+    private void updateUser(){
+        dataClient = ApiUtils.getData();
+        call = dataClient.updateUser(userInfoVM);
+        call.enqueue(new Callback<AppUserVM>() {
+            @Override
+            public void onResponse(Call<AppUserVM> call, Response<AppUserVM> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                Toast.makeText(InformationUserActivity.this, "Update success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<AppUserVM> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void openGallery() {
         Intent open = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(open, PICK_IMAGE);
@@ -181,6 +242,33 @@ public class InformationUserActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imgUri = data.getData();
             imgView.setImageURI(imgUri);
+            updateImageUser(imgUri.toString());
         }
+    }
+
+
+    private void updateImageUser(final String img){
+
+        Intent it = this.getIntent();
+        String userId = it.getStringExtra("userid");
+
+        dataClient = ApiUtils.getData();
+        call = dataClient.getUserInfo(Integer.parseInt(userId));
+        call.enqueue(new Callback<AppUserVM>() {
+            @Override
+            public void onResponse(Call<AppUserVM> call, Response<AppUserVM> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                userInfoVM = response.body();
+                String s = String .valueOf(img);
+                updateUser();
+            }
+
+            @Override
+            public void onFailure(Call<AppUserVM> call, Throwable t) {
+
+            }
+        });
     }
 }

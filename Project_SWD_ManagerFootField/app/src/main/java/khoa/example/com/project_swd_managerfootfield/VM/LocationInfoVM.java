@@ -1,16 +1,32 @@
 package khoa.example.com.project_swd_managerfootfield.VM;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class LocationInfoVM {
+
+    @SerializedName("locationID")
+    @Expose
     private Long locationID;
 
+    @SerializedName("locationName")
+    @Expose
     private String locationName;
 
+    @SerializedName("address")
+    @Expose
     private String address;
 
+    @SerializedName("image")
+    @Expose
     private String image;
 
+    @SerializedName("status")
+    @Expose
     private String status;
 
+    @SerializedName("phone")
+    @Expose
     private String phone;
 
     public LocationInfoVM(Long locationID, String locationName, String address, String image, String status, String phone) {

@@ -10,14 +10,30 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
+import khoa.example.com.project_swd_managerfootfield.VM.DistrictVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FindPitchActivity extends AppCompatActivity {
 
     Spinner spLocation;
     ListView listPitch;
+
+    DataClient dataClient;
+    Call<List<DistrictVM>> disCall;
+    Call<List<LocationInfoVM>> loCall;
+    List<String> disNames;
+    Map<String, Integer> disMap;
+
+    List<LocationInfoVM> listPitchByDis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,26 +43,66 @@ public class FindPitchActivity extends AppCompatActivity {
         listPitch = findViewById(R.id.listView);
 
         spLocation = findViewById(R.id.spLocation);
-        final List<String> listLocation = new ArrayList<>();
-        listLocation.add("q1");
-        listLocation.add("q2");
-        listLocation.add("q3");
-        listLocation.add("q4");
-        listLocation.add("q5");
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, listLocation);
-        spLocation.setAdapter(adapter);
 
+        getAllDis();
+
+    }
+
+    private void getAllDis() {
+        dataClient = ApiUtils.getData();
+        disCall = dataClient.getAllDistrict();
+        disCall.enqueue(new Callback<List<DistrictVM>>() {
+            @Override
+            public void onResponse(Call<List<DistrictVM>> call, Response<List<DistrictVM>> response) {
+                if (!response.isSuccessful()) return;
+                List<DistrictVM> vms = response.body();
+                disNames = new ArrayList<>();
+                disMap = new HashMap<>();
+                for (int i = 0; i < vms.size(); i++) {
+                    disNames.add(vms.get(i).getDisName());
+                    disMap.put(vms.get(i).getDisName(), vms.get(i).getId());
+                }
+
+                loadPage();
+            }
+
+            @Override
+            public void onFailure(Call<List<DistrictVM>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadPage() {
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, disNames);
+        spLocation.setAdapter(adapter);
 
         spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int position = spLocation.getSelectedItemPosition() + 1;
-                Toast.makeText(getApplicationContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                String name = spLocation.getSelectedItem().toString();
+                int position = disMap.get(name);
+                generationListTest(position);
 
-                List<LocationInfoVM> listPitchByLocation = generationListTest(position);
+            }
 
-                CustomAdapter custom = new CustomAdapter(getApplicationContext(), R.layout.row_listview, listPitchByLocation);
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void generationListTest(int position) {
+        dataClient = ApiUtils.getData();
+        loCall = dataClient.getLocationInfo(position);
+        loCall.enqueue(new Callback<List<LocationInfoVM>>() {
+            @Override
+            public void onResponse(Call<List<LocationInfoVM>> call, Response<List<LocationInfoVM>> response) {
+                if (response.isSuccessful()) {
+                    listPitchByDis = response.body();
+                }
+                CustomAdapter custom = new CustomAdapter(getApplicationContext(), R.layout.row_listview, listPitchByDis);
                 listPitch.setAdapter(custom);
 
                 listPitch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -60,56 +116,10 @@ public class FindPitchActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onFailure(Call<List<LocationInfoVM>> call, Throwable t) {
 
             }
         });
 
-    }
-
-    public List<LocationInfoVM> getListByLocationId(int potision) {
-        List<LocationInfoVM> list = new ArrayList<>();
-        return list;
-    }
-
-    public List<LocationInfoVM> generationListTest(int position) {
-        if (position == 1) {
-            List<LocationInfoVM> listPitchByLocation = new ArrayList<>();
-            LocationInfoVM location1 = new LocationInfoVM(1L, "san 1", "aaa", "https://imgur.com/ErTKgeL", "olala", "123123123");
-            LocationInfoVM location2 = new LocationInfoVM(2L, "san 2", "bbb", "https://imgur.com/ErTKgeL", "olala", "123123123");
-            LocationInfoVM location3 = new LocationInfoVM(3L, "san 3", "ccc", "https://imgur.com/ErTKgeL", "olala", "123123123");
-            LocationInfoVM location4 = new LocationInfoVM(4L, "san 4", "ddd", "a.jpg", "olala", "123123123");
-            LocationInfoVM location5 = new LocationInfoVM(4L, "san 5", "ddd", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location6 = new LocationInfoVM(4L, "san 6", "ddd", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location7 = new LocationInfoVM(4L, "san 7", "ddd", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location8 = new LocationInfoVM(4L, "san 8", "ddd", "dm.jpg", "olala", "123123123");
-
-            listPitchByLocation.add(location1);
-            listPitchByLocation.add(location2);
-            listPitchByLocation.add(location3);
-            listPitchByLocation.add(location4);
-            listPitchByLocation.add(location5);
-            listPitchByLocation.add(location6);
-            listPitchByLocation.add(location7);
-            listPitchByLocation.add(location8);
-
-            return listPitchByLocation;
-        } else if (position == 2) {
-            List<LocationInfoVM> listPitchByLocation = new ArrayList<>();
-            LocationInfoVM location1 = new LocationInfoVM(1L, "san 9", "aaa", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location2 = new LocationInfoVM(2L, "san 10", "bbb", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location3 = new LocationInfoVM(3L, "san 11", "ccc", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location4 = new LocationInfoVM(4L, "san 12", "ddd", "dm.jpg", "olala", "123123123");
-            LocationInfoVM location5 = new LocationInfoVM(4L, "san 13", "ddd", "dm.jpg", "olala", "123123123");
-
-            listPitchByLocation.add(location1);
-            listPitchByLocation.add(location2);
-            listPitchByLocation.add(location3);
-            listPitchByLocation.add(location4);
-            listPitchByLocation.add(location5);
-
-            return listPitchByLocation;
-        }
-        return null;
     }
 }
