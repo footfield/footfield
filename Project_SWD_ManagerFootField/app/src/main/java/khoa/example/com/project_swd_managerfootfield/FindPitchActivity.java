@@ -1,5 +1,6 @@
 package khoa.example.com.project_swd_managerfootfield;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -102,14 +103,18 @@ public class FindPitchActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     listPitchByDis = response.body();
                 }
+                listPitchByDis.add( new LocationInfoVM(1,"location name", "address", "", "status", "1231231"));
                 CustomAdapter custom = new CustomAdapter(getApplicationContext(), R.layout.row_listview, listPitchByDis);
                 listPitch.setAdapter(custom);
 
                 listPitch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        LocationInfoVM obj = (LocationInfoVM) listPitch.getItemAtPosition(i);
-                        Toast.makeText(getApplicationContext(), obj.getLocationName(), Toast.LENGTH_SHORT).show();
+                        //LocationInfoVM obj = (LocationInfoVM) listPitch.getItemAtPosition(i);
+                        LocationInfoVM obj = new LocationInfoVM(1,"location name", "address", "", "status", "1231231");
+                        Intent intent=new Intent(getApplicationContext(),DetailPitchActivity.class);
+                        intent.putExtra("pitch",obj);
+                        startActivity(intent);
 
                     }
                 });

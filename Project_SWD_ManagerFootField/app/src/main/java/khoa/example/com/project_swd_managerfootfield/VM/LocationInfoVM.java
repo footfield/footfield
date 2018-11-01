@@ -3,11 +3,13 @@ package khoa.example.com.project_swd_managerfootfield.VM;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LocationInfoVM {
+import java.io.Serializable;
+
+public class LocationInfoVM implements Serializable {
 
     @SerializedName("locationID")
     @Expose
-    private Long locationID;
+    private int locationID;
 
     @SerializedName("locationName")
     @Expose
@@ -29,7 +31,7 @@ public class LocationInfoVM {
     @Expose
     private String phone;
 
-    public LocationInfoVM(Long locationID, String locationName, String address, String image, String status, String phone) {
+    public LocationInfoVM(int locationID, String locationName, String address, String image, String status, String phone) {
         this.locationID = locationID;
         this.locationName = locationName;
         this.address = address;
@@ -42,11 +44,11 @@ public class LocationInfoVM {
 
     }
 
-    public Long getLocationID() {
+    public int getLocationID() {
         return locationID;
     }
 
-    public void setLocationID(Long locationID) {
+    public void setLocationID(int locationID) {
         this.locationID = locationID;
     }
 
