@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
             txtPassword = findViewById(R.id.txtPassword);
             txtNotification = findViewById(R.id.textNotification);
 
+
             btnLogin = findViewById(R.id.btnLogin);
             btnLogin.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     String password = txtPassword.getText().toString();
                     LoginVM loginVM = new LoginVM(username, md5(password));
                     checkUserAndPass(loginVM);
+
                 }
             });
 
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     }
 

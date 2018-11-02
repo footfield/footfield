@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,85 +7,89 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="143dp"
-        android:src="@drawable/ball2" />
 
-    <EditText
-        android:id="@+id/edtName"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="208dp"
-        android:background="@drawable/boder"
-        android:drawableLeft="@drawable/name"
-        android:hint=" Name"
-        android:paddingLeft="5dp" />
 
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="290dp"
-        android:background="@drawable/boder"
-        android:drawableLeft="@drawable/email"
-        android:hint="  Email"
-        android:paddingLeft="5dp"
-        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="143dp"
+            android:src="@drawable/ball2" />
 
-    <EditText
-        android:id="@+id/edtPhone"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="377dp"
-        android:background="@drawable/boder"
-        android:drawableLeft="@drawable/phone"
-        android:hint="  Phone"
-        android:paddingLeft="5dp"
-        />
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="234dp"
+            android:background="@drawable/boder"
+            android:drawableLeft="@drawable/name"
+            android:hint="  Name"
+            android:paddingLeft="5dp" />
 
-    <EditText
-        android:id="@+id/edtPass"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="464dp"
-        android:inputType="textPassword"
-        android:background="@drawable/boder"
-        android:drawableLeft="@drawable/password"
-        android:hint="  Password"
-        android:paddingLeft="5dp"
-        />
 
-    <EditText
-        android:id="@+id/edtConfirmPass"
-        android:layout_width="384dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="551dp"
-        android:background="@drawable/boder"
-        android:inputType="textPassword"
-        android:drawableLeft="@drawable/password"
-        android:hint="  Password"
-        android:paddingLeft="5dp"
-        />
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="299dp"
+            android:background="@drawable/boder"
+            android:drawableLeft="@drawable/email"
+            android:hint="  Email"
+            android:paddingLeft="5dp" />
 
-    <Button
-        android:id="@+id/btnRegisterForm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/corners"
-        android:text="Register"
-        android:textColor="#FFFFFF" />
+
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="364dp"
+            android:background="@drawable/boder"
+            android:drawableLeft="@drawable/phone"
+            android:hint="  Phone"
+            android:paddingLeft="5dp" />
+
+
+        <EditText
+            android:id="@+id/edtPass"
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="429dp"
+            android:background="@drawable/boder"
+            android:drawableLeft="@drawable/password"
+            android:hint="  Password"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp" />
+
+
+        <EditText
+            android:id="@+id/edtConfirmPass"
+            android:layout_width="384dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="494dp"
+            android:background="@drawable/boder"
+            android:drawableLeft="@drawable/password"
+            android:hint="  Password"
+            android:inputType="textPassword"
+            android:paddingLeft="5dp" />
+
+
+        <Button
+            android:id="@+id/btnRegisterForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="163dp"
+            android:background="@drawable/corners"
+            android:text="Register"
+            android:textColor="#FFFFFF" />
+
 </RelativeLayout>
