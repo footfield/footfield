@@ -52,7 +52,7 @@ public class CustomAdapter extends ArrayAdapter<LocationInfoVM> {
 
         String img = locationInfoVM.getImage();
 
-        Picasso.get().load(img+"").into(viewHolder.imgAvata);
+       Picasso.get().load(img).into(viewHolder.imgAvata);
 
         viewHolder.txtName.setText(locationInfoVM.getLocationName());
         viewHolder.txtAddress.setText(locationInfoVM.getAddress());

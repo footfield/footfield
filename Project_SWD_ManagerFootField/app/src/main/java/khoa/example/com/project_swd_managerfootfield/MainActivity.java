@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        }else{
+            setContentView(R.layout.activity_manager);
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
