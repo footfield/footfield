@@ -2,6 +2,7 @@ package khoa.example.com.project_swd_managerfootfield.Retrofit2;
 
 import java.util.List;
 
+import khoa.example.com.project_swd_managerfootfield.PitchDetail;
 import khoa.example.com.project_swd_managerfootfield.VM.DistrictVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LoginVM;
@@ -9,12 +10,15 @@ import khoa.example.com.project_swd_managerfootfield.VM.PasswordChangeVM;
 import khoa.example.com.project_swd_managerfootfield.VM.PasswordForgotVM;
 import khoa.example.com.project_swd_managerfootfield.VM.RegisterVM;
 import khoa.example.com.project_swd_managerfootfield.VM.AppUserVM;
+import khoa.example.com.project_swd_managerfootfield.VM.SlotOfPitchVM;
+import khoa.example.com.project_swd_managerfootfield.VM.TypePitchVM;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface DataClient {
 
@@ -41,6 +45,15 @@ public interface DataClient {
 
     @GET("location-info/district/{id}")
     Call<List<LocationInfoVM>> getLocationInfo(@Path("id") int id);
+
+    @GET("slot")
+    Call<List<SlotOfPitchVM>> getAllSlot();
+
+    @GET("footfield/type/{locationId}")
+    Call<List<TypePitchVM>> getFieldTypeLocation(@Path("locationId") int id);
+
+    @GET("field-detail")
+    Call<List<PitchDetail>> getPitch(@Body List<Integer> ids, @Query("fieldTypeId") int fieldTypeId);
 
 
 //    @GET("english/{id}")

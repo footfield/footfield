@@ -17,7 +17,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
+import khoa.example.com.project_swd_managerfootfield.VM.SlotOfPitchVM;
+import khoa.example.com.project_swd_managerfootfield.VM.TypePitchVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailPitchActivity extends AppCompatActivity {
 
@@ -26,9 +33,16 @@ public class DetailPitchActivity extends AppCompatActivity {
     CheckBox cbSlot;
     LinearLayout linearOfCbSlot;
 
-    List<TypePitch> listTypePitch;
+    DataClient dataClient;
+    Call<List<TypePitchVM>> typeCall;
+    Call<List<SlotOfPitchVM>> slotCall;
+    Call<List<PitchDetail>> pitchCall;
+
+    List<TypePitchVM> listTypePitch;
     List<String> descriptionOfTypePitch;
     Map<Integer, String> mapTypePitch;
+
+    List<SlotOfPitchVM> listSlot;
 
     List<PitchDetail> listPitchByTypeAndSlot;
     List<String> listNameOfPitchByTypeAndSlot;
@@ -43,32 +57,20 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddressPitch);
         txtPhone = findViewById(R.id.txtPhonePitch);
 
+        Intent intent = getIntent();
+        LocationInfoVM obj = (LocationInfoVM) intent.getSerializableExtra("pitch");
+        loadInformationOfPitch(obj);
+
         //set spiner list type pitch
         spTypePitch = findViewById(R.id.spTypePitch);
 
+        System.out.println("+++++++++++++++++++1" + obj.getLocationID());
         // tra 1 list type pitch
-        listTypePitch = new ArrayList<>();
-        descriptionOfTypePitch = new ArrayList<>();
-        mapTypePitch = new HashMap<>();
-        for (int i = 0; i < listTypePitch.size(); i++) {
-            descriptionOfTypePitch.add(listTypePitch.get(i).getDescription());
-            mapTypePitch.put(listTypePitch.get(i).getId(), listTypePitch.get(i).getDescription());
-        }
+        loadListType(obj.getLocationID());
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, descriptionOfTypePitch);
-        spTypePitch.setAdapter(adapter);
-        spTypePitch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //return key of pitch
-                int key = returnKeyOfPitchType(mapTypePitch, spTypePitch);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        linearOfCbSlot = findViewById(R.id.linearOfCbSlot);
+        loadListSlot();
 
 
         spPitchName = findViewById(R.id.spPitchName);
@@ -99,19 +101,95 @@ public class DetailPitchActivity extends AppCompatActivity {
         });
 
 
-        linearOfCbSlot = findViewById(R.id.linearOfCbSlot);
-        for (int i = 0; i < 3; i++) {
-            CheckBox cbSlot = new CheckBox(this);
-            cbSlot.setText("slot " + (i + 1));
-            linearOfCbSlot.addView(cbSlot);
-        }
-
-
-        Intent intent = getIntent();
-        LocationInfoVM obj = (LocationInfoVM) intent.getSerializableExtra("pitch");
-        loadInformationOfPitch(obj);
-
         Toast.makeText(getApplicationContext(), obj.getLocationName(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadListType(int locationId) {
+        dataClient = ApiUtils.getData();
+        typeCall = dataClient.getFieldTypeLocation(locationId);
+        typeCall.enqueue(new Callback<List<TypePitchVM>>() {
+            @Override
+            public void onResponse(Call<List<TypePitchVM>> call, Response<List<TypePitchVM>> response) {
+                if (!response.isSuccessful()) {
+                    System.out.println("+++++++++++++++++++fail");
+                    return;
+                }
+
+                listTypePitch = response.body();
+                System.out.println("+++++++++++++++++++2" + listTypePitch.size());
+                descriptionOfTypePitch = new ArrayList<>();
+                mapTypePitch = new HashMap<>();
+                for (int i = 0; i < listTypePitch.size(); i++) {
+                    descriptionOfTypePitch.add(listTypePitch.get(i).getDescription());
+                    mapTypePitch.put(listTypePitch.get(i).getId(), listTypePitch.get(i).getDescription());
+                }
+
+                ArrayAdapter adapter = new ArrayAdapter(DetailPitchActivity.this, android.R.layout.simple_spinner_item, descriptionOfTypePitch);
+                spTypePitch.setAdapter(adapter);
+                spTypePitch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        //return key of pitch
+                        int key = returnKeyOfPitchType(mapTypePitch, spTypePitch);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<TypePitchVM>> call, Throwable t) {
+                System.out.println("+++++++++++++++++++fail1" + t.getMessage());
+            }
+        });
+
+    }
+
+    private void loadListSlot() {
+        dataClient = ApiUtils.getData();
+        slotCall = dataClient.getAllSlot();
+        slotCall.enqueue(new Callback<List<SlotOfPitchVM>>() {
+            @Override
+            public void onResponse(Call<List<SlotOfPitchVM>> call, Response<List<SlotOfPitchVM>> response) {
+                if (!response.isSuccessful()) return;
+                listSlot = response.body();
+
+                for (SlotOfPitchVM s : listSlot) {
+                    CheckBox cbSlot = new CheckBox(DetailPitchActivity.this);
+                    cbSlot.setText(s.getDescription());
+                    cbSlot.setId(s.getId());
+                    linearOfCbSlot.addView(cbSlot);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SlotOfPitchVM>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void loadListPitchDetail(int typeId, List<Integer> slotIds) {
+
+        dataClient = ApiUtils.getData();
+        pitchCall = dataClient.getPitch(slotIds, typeId);
+        pitchCall.enqueue(new Callback<List<PitchDetail>>() {
+            @Override
+            public void onResponse(Call<List<PitchDetail>> call, Response<List<PitchDetail>> response) {
+                if (!response.isSuccessful()) return;
+                listPitchByTypeAndSlot = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<PitchDetail>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     public void loadInformationOfPitch(LocationInfoVM location) {
