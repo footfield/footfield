@@ -21,7 +21,7 @@
         android:layout_marginTop="250dp">
 
         <ImageView
-            android:id="@+id/imgAvatarRowLists"
+            android:id="@+id/imgAvatarPitch"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="0dp"
@@ -34,25 +34,25 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtNameRowList"
+                android:id="@+id/txtNamePitch"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NAME" />
+                android:text="NAME: " />
 
             <TextView
-                android:id="@+id/txtAddressRowList"
+                android:id="@+id/txtAddressPitch"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DIA CHI" />
+                android:text="ADDRESS: " />
 
             <TextView
-                android:id="@+id/txtPhoneRowList"
+                android:id="@+id/txtPhonePitch"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SO DIEN THOAI" />
+                android:text="PHONE: " />
         </LinearLayout>
     </LinearLayout>
     <RelativeLayout
@@ -67,9 +67,9 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Field Type: "/>
+            android:text="Type pitch: "/>
         <Spinner
-            android:id="@+id/spFieldType"
+            android:id="@+id/spTypePitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -77,23 +77,25 @@
             android:layout_marginTop="20dp"></Spinner>
 
         <LinearLayout
+            android:id="@+id/linearOfCbSlot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginTop="60dp">
-            <CheckBox
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="Slot 1"/>
+            <!--<CheckBox-->
+                <!--android:id="@+id/cbSlot"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Slot 1"/>-->
         </LinearLayout>
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="110dp"
-            android:text="Field Name: "/>
+            android:text="Pitch: "/>
         <Spinner
-            android:id="@+id/spFieldName"
+            android:id="@+id/spPitchName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
