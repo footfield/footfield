@@ -6,4 +6,118 @@
     android:layout_height="match_parent"
     tools:context=".DetailPitchActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/ball2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="250dp">
+
+        <ImageView
+            android:id="@+id/imgAvatarRowLists"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="0dp"
+            android:src="@drawable/ball2"
+            />
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtNameRowList"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAME" />
+
+            <TextView
+                android:id="@+id/txtAddressRowList"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DIA CHI" />
+
+            <TextView
+                android:id="@+id/txtPhoneRowList"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SO DIEN THOAI" />
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="50dp"
+        android:layout_marginTop="350dp">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Field Type: "/>
+        <Spinner
+            android:id="@+id/spFieldType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="20dp"></Spinner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="60dp">
+            <CheckBox
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Slot 1"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="110dp"
+            android:text="Field Name: "/>
+        <Spinner
+            android:id="@+id/spFieldName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="110dp"></Spinner>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:text="Total: "/>
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="100dp"
+            android:text="2000k"/>
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="525dp"
+        android:text="Book"
+        android:onClick="clickToBookField"/>
+
 </RelativeLayout>
