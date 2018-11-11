@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class ManagerActivity extends AppCompatActivity {
 
-    Button btnLogout,btnInforUser,btnFindPitch;
+    Button btnLogout,btnInforUser,btnFindPitch,btnHistory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,5 +46,16 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnHistory=findViewById(R.id.btnHistory);
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),HistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

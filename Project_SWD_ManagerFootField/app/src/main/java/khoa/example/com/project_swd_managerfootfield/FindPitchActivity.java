@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class FindPitchActivity extends AppCompatActivity {
 
-    Spinner spLocation;
+    com.rey.material.widget.Spinner spLocation;
     ListView listPitch;
 
     DataClient dataClient;
@@ -78,20 +78,15 @@ public class FindPitchActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, disNames);
         spLocation.setAdapter(adapter);
 
-        spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spLocation.setOnItemSelectedListener(new com.rey.material.widget.Spinner.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(com.rey.material.widget.Spinner parent, View view, int position, long id) {
                 String name = spLocation.getSelectedItem().toString();
-                int position = disMap.get(name);
-                generationListTest(position);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+                int positions = disMap.get(name);
+                generationListTest(positions);
             }
         });
+
     }
 
     private void generationListTest(int position) {

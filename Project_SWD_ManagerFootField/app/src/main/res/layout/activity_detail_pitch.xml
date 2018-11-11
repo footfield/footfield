@@ -55,71 +55,91 @@
                 android:text="PHONE: " />
         </LinearLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="350dp"
         android:orientation="horizontal"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:paddingBottom="50dp"
-        android:layout_marginTop="350dp">
+        android:paddingBottom="50dp">
+
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Type pitch: "/>
+            android:layout_marginStart="20dp"
+            android:text="Type pitch: " />
+
         <Spinner
             android:id="@+id/spTypePitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="120dp"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="20dp"></Spinner>
 
-        <LinearLayout
-            android:id="@+id/linearOfCbSlot"
+        <GridLayout
+            android:id="@+id/gridOfCbSlot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="60dp"
+            android:columnCount="4"
+            android:orientation="horizontal">
             <!--<CheckBox-->
-                <!--android:id="@+id/cbSlot"-->
-                <!--android:layout_width="80dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="Slot 1"/>-->
-        </LinearLayout>
+            <!--android:id="@+id/cbSlot"-->
+            <!--android:layout_width="80dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Slot 1"/>-->
+        </GridLayout>
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="110dp"
-            android:text="Pitch: "/>
+            android:layout_alignBottom="@+id/spPitchName"
+            android:layout_marginStart="20dp"
+            android:text="Pitch: " />
+
         <Spinner
             android:id="@+id/spPitchName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="110dp"></Spinner>
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="180dp"></Spinner>
 
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:text="Total: "/>
+            android:layout_below="@+id/txtTotal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-20dp"
+            android:layout_marginEnd="366dp"
+            android:text="Total: " />
+
         <TextView
             android:id="@+id/txtTotal"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="100dp"
-            android:text="2000k"/>
+            android:layout_marginTop="250dp"
+            android:text="2000k" />
     </RelativeLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="525dp"
-        android:text="Book"
-        android:onClick="clickToBookField"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="646dp"
+        android:onClick="clickToBookField"
+        android:text="Book" />
 
 </RelativeLayout>

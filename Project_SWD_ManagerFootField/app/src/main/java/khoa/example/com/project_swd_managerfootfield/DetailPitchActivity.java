@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,8 +32,7 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     TextView txtName, txtAddress, txtPhone;
     Spinner spTypePitch, spPitchName;
-    CheckBox cbSlot;
-    LinearLayout linearOfCbSlot;
+    GridLayout gridOfCbSlot;
 
     DataClient dataClient;
     Call<List<TypePitchVM>> typeCall;
@@ -48,6 +49,10 @@ public class DetailPitchActivity extends AppCompatActivity {
     List<String> listNameOfPitchByTypeAndSlot;
     Map<Integer, String> mapPitchByTypeAndSlot;
 
+    com.rey.material.widget.CheckBox cbSlot;
+    List<Integer> listIdOfSlot;
+    int keyOfTypePitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,8 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtNamePitch);
         txtAddress = findViewById(R.id.txtAddressPitch);
         txtPhone = findViewById(R.id.txtPhonePitch);
+
+        listIdOfSlot = new ArrayList<>();
 
         Intent intent = getIntent();
         LocationInfoVM obj = (LocationInfoVM) intent.getSerializableExtra("pitch");
@@ -69,7 +76,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         loadListType(obj.getLocationID());
 
 
-        linearOfCbSlot = findViewById(R.id.linearOfCbSlot);
+        gridOfCbSlot = findViewById(R.id.gridOfCbSlot);
         loadListSlot();
 
 
@@ -130,7 +137,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         //return key of pitch
-                        int key = returnKeyOfPitchType(mapTypePitch, spTypePitch);
+                        keyOfTypePitch = returnKeyOfPitchType(mapTypePitch, spTypePitch);
                     }
 
                     @Override
@@ -156,12 +163,26 @@ public class DetailPitchActivity extends AppCompatActivity {
             public void onResponse(Call<List<SlotOfPitchVM>> call, Response<List<SlotOfPitchVM>> response) {
                 if (!response.isSuccessful()) return;
                 listSlot = response.body();
-
                 for (SlotOfPitchVM s : listSlot) {
-                    CheckBox cbSlot = new CheckBox(DetailPitchActivity.this);
+                    // com.rey.material.widget.CheckBox cbSlot = new com.rey.material.widget.CheckBox(DetailPitchActivity.this);
+                    cbSlot = new com.rey.material.widget.CheckBox(DetailPitchActivity.this);
                     cbSlot.setText(s.getDescription());
                     cbSlot.setId(s.getId());
-                    linearOfCbSlot.addView(cbSlot);
+
+                    cbSlot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            if (b) {
+                                listIdOfSlot.add(compoundButton.getId());
+
+                                //goi ham load pitch khi chon slot xong o day
+                                // key type pitch la keyOfTypePitch
+                                // co listId voi keyOfTypePitch r
+                            }
+                        }
+                    });
+
+                    gridOfCbSlot.addView(cbSlot);
                 }
             }
 
@@ -170,8 +191,8 @@ public class DetailPitchActivity extends AppCompatActivity {
 
             }
         });
-
     }
+
 
     private void loadListPitchDetail(int typeId, List<Integer> slotIds) {
 

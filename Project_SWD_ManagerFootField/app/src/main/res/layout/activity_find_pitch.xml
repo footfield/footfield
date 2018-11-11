@@ -21,13 +21,15 @@
             android:layout_marginTop="41dp"
             android:text="Choose location" />
 
-        <Spinner
+        <com.rey.material.widget.Spinner
+            style="@style/Material.Widget.Spinner"
             android:id="@+id/spLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_marginStart="190dp"
-            android:layout_marginTop="40dp"></Spinner>
+            android:layout_marginTop="40dp"
+            app:rd_style="@style/Material.Drawable.Ripple.Wave"/>
+
     </RelativeLayout>
 
     <ListView
@@ -38,5 +40,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="146dp"></ListView>
+
 
 </RelativeLayout>
