@@ -2,6 +2,7 @@ package khoa.example.com.project_swd_managerfootfield;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.Map;
 import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
 import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
+import khoa.example.com.project_swd_managerfootfield.VM.OrderVM;
 import khoa.example.com.project_swd_managerfootfield.VM.SlotOfPitchVM;
 import khoa.example.com.project_swd_managerfootfield.VM.TypePitchVM;
 import retrofit2.Call;
@@ -44,6 +46,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     Call<List<TypePitchVM>> typeCall;
     Call<List<SlotOfPitchVM>> slotCall;
     Call<List<PitchDetail>> pitchCall;
+    Call<Integer> orderCall;
 
     List<TypePitchVM> listTypePitch;
     List<String> descriptionOfTypePitch;
@@ -57,7 +60,8 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     com.rey.material.widget.CheckBox cbSlot;
     List<Integer> listIdOfSlot;
-    int keyOfTypePitch;
+    int keyOfTypePitch = 0;
+    int fieldDetailID = 0;
 
     LocationInfoVM obj;
 
@@ -94,35 +98,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         gridOfCbSlot = findViewById(R.id.gridOfCbSlot);
         loadListSlot();
 
-
         spPitchName = findViewById(R.id.spPitchName);
-        //return 1 list pitch when filter type pitch and slot
-        listPitchByTypeAndSlot = new ArrayList<>();
-        listNameOfPitchByTypeAndSlot = new ArrayList<>();
-        mapPitchByTypeAndSlot = new HashMap<>();
-
-        for (int i = 0; i < listPitchByTypeAndSlot.size(); i++) {
-            listNameOfPitchByTypeAndSlot.add(listPitchByTypeAndSlot.get(i).getDescription());
-            mapPitchByTypeAndSlot.put(listPitchByTypeAndSlot.get(i).getId(), listPitchByTypeAndSlot.get(i).getDescription());
-        }
-
-        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, listPitchByTypeAndSlot);
-        spPitchName.setAdapter(adapter2);
-
-        spPitchName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //return key of pitch when filter type pitch and slot
-                int key = returnKeyOfPitchType(mapPitchByTypeAndSlot, spPitchName);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
         Toast.makeText(getApplicationContext(), obj.getLocationName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -151,8 +127,10 @@ public class DetailPitchActivity extends AppCompatActivity {
                 spTypePitch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        //return key of pitch
                         keyOfTypePitch = returnKeyOfPitchType(mapTypePitch, spTypePitch);
+                        if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
+                            loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
+                        }
                     }
 
                     @Override
@@ -189,10 +167,15 @@ public class DetailPitchActivity extends AppCompatActivity {
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             if (b) {
                                 listIdOfSlot.add(compoundButton.getId());
-
-                                //goi ham load pitch khi chon slot xong o day
-                                // key type pitch la keyOfTypePitch
-                                // co listId voi keyOfTypePitch r
+                            } else {
+                                for (int i = 0; i < listIdOfSlot.size(); i++) {
+                                    if (listIdOfSlot.get(i) == compoundButton.getId()) {
+                                        listIdOfSlot.remove(i);
+                                    }
+                                }
+                            }
+                            if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
+                                loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                             }
                         }
                     });
@@ -209,15 +192,37 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
 
-    private void loadListPitchDetail(int typeId, List<Integer> slotIds) {
+    private void loadListPitchDetail(int typeId, List<Integer> slotIds, Long dateTook) {
 
         dataClient = ApiUtils.getData();
-        pitchCall = dataClient.getPitch(slotIds, typeId);
+        pitchCall = dataClient.getPitch(slotIds, typeId, dateTook);
         pitchCall.enqueue(new Callback<List<PitchDetail>>() {
             @Override
             public void onResponse(Call<List<PitchDetail>> call, Response<List<PitchDetail>> response) {
                 if (!response.isSuccessful()) return;
                 listPitchByTypeAndSlot = response.body();
+                listNameOfPitchByTypeAndSlot = new ArrayList<>();
+                mapPitchByTypeAndSlot = new HashMap<>();
+
+                for (int i = 0; i < listPitchByTypeAndSlot.size(); i++) {
+                    listNameOfPitchByTypeAndSlot.add(listPitchByTypeAndSlot.get(i).getDescription());
+                    mapPitchByTypeAndSlot.put(listPitchByTypeAndSlot.get(i).getId(), listPitchByTypeAndSlot.get(i).getDescription());
+                }
+
+                ArrayAdapter adapter2 = new ArrayAdapter(DetailPitchActivity.this, android.R.layout.simple_spinner_item, listNameOfPitchByTypeAndSlot);
+                spPitchName.setAdapter(adapter2);
+
+                spPitchName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        fieldDetailID = returnKeyOfPitchType(mapPitchByTypeAndSlot, spPitchName);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
             }
 
             @Override
@@ -229,6 +234,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
     public void loadInformationOfPitch(LocationInfoVM location) {
+        //load image
         txtName.setText("NAME: " + location.getLocationName());
         txtAddress.setText("ADDRESS: " + location.getAddress());
         txtPhone.setText("PHONE: " + location.getPhone());
@@ -271,11 +277,15 @@ public class DetailPitchActivity extends AppCompatActivity {
                 datePick = simpleDateFormat.format(calendar.getTime());
                 txtPickDate.setText(datePick);
                 try {
-                    resultPick = simpleDateFormat.parse(datePick);
+                    //resultPick = calendar.getTime();
+                    resultPick = new SimpleDateFormat("dd/MM/yyyy").parse(datePick);
                     if (resultPick.before(resultNow)) {
                         Toast.makeText(DetailPitchActivity.this, "SAI", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(DetailPitchActivity.this, datePick, Toast.LENGTH_SHORT).show();
+                        if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
+                            loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
+                        }
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -287,24 +297,34 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
     public void clickToBooked(View view) {
-        Intent intent = new Intent(DetailPitchActivity.this, BookedActivity.class);
-        intent.putExtra("locationName", obj.getLocationName());
-        intent.putExtra("address", obj.getAddress());
-        intent.putExtra("phone", obj.getPhone());
+        bookPitch();
+    }
 
-        String typeOfPitch = spTypePitch.getSelectedItem().toString();
-        intent.putExtra("typeOfPitch", typeOfPitch);
+    private void bookPitch() {
+        SharedPreferences share = getSharedPreferences("com.khoa.filetoken", MODE_PRIVATE);
+        String userId = share.getString("userid", null);
+        OrderVM orderVM = new OrderVM(fieldDetailID, listIdOfSlot, Integer.parseInt(userId), resultPick.getTime(), Double.parseDouble(txtTotal.getText().toString()));
+        dataClient = ApiUtils.getData();
+        orderCall = dataClient.orderPitch(orderVM);
+        orderCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                int orderId = response.body();
+                if (orderId != 0) {
+                    Intent intent = new Intent(DetailPitchActivity.this, BookedActivity.class);
+                    intent.putExtra("orderId", orderId + "");
+                    startActivity(intent);
+                }
 
-        String nameOfPitch = spPitchName.getSelectedItem().toString();
-        intent.putExtra("nameOfPitch", "aaa");
+            }
 
-        intent.putExtra("dateNow", dateNow);
-        intent.putExtra("datePicked", datePick);
-
-        intent.putExtra("listIdOfSlot", (Serializable) listIdOfSlot);
-        intent.putExtra("price", txtTotal.getText().toString());
-        intent.putExtra("status", "not yet");
-
-        startActivity(intent);
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                System.out.println("+++++++++++++++++++++++++fail:" + t.getMessage());
+            }
+        });
     }
 }

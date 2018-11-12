@@ -1,11 +1,14 @@
 package khoa.example.com.project_swd_managerfootfield.Retrofit2;
 
+import java.util.Date;
 import java.util.List;
 
 import khoa.example.com.project_swd_managerfootfield.PitchDetail;
 import khoa.example.com.project_swd_managerfootfield.VM.DistrictVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LoginVM;
+import khoa.example.com.project_swd_managerfootfield.VM.OrderInfoVM;
+import khoa.example.com.project_swd_managerfootfield.VM.OrderVM;
 import khoa.example.com.project_swd_managerfootfield.VM.PasswordChangeVM;
 import khoa.example.com.project_swd_managerfootfield.VM.PasswordForgotVM;
 import khoa.example.com.project_swd_managerfootfield.VM.RegisterVM;
@@ -52,8 +55,17 @@ public interface DataClient {
     @GET("footfield/type/{locationId}")
     Call<List<TypePitchVM>> getFieldTypeLocation(@Path("locationId") int id);
 
-    @GET("field-detail")
-    Call<List<PitchDetail>> getPitch(@Body List<Integer> ids, @Query("fieldTypeId") int fieldTypeId);
+    @POST("field-detail")
+    Call<List<PitchDetail>> getPitch(@Body List<Integer> ids, @Query("fieldTypeId") int fieldTypeId, @Query("dateTook") Long dateTook);
+
+    @POST("oder")
+    Call<Integer> orderPitch(@Body OrderVM vm);
+
+    @GET("oder-info/{id}")
+    Call<OrderInfoVM> getOrderInfo(@Path("id") int id);
+
+    @GET("location/{id}")
+    Call<LocationInfoVM> getLocation(@Path("id") int id);
 
 
 //    @GET("english/{id}")

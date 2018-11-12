@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="29dp"
         android:layout_marginTop="59dp"
-        android:text="Location: " />
+        android:text="Location: "/>
 
     <TextView
         android:id="@+id/txtAddtess"

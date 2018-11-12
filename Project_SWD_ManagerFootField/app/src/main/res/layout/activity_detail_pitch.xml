@@ -6,150 +6,155 @@
     android:layout_height="match_parent"
     tools:context=".DetailPitchActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:src="@drawable/ball2" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="250dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imgAvatarPitch"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="0dp"
-            android:src="@drawable/ball2"
-            />
-
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="100dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/txtNamePitch"
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NAME: " />
-
-            <TextView
-                android:id="@+id/txtAddressPitch"
-                android:layout_marginTop="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ADDRESS: " />
-
-            <TextView
-                android:id="@+id/txtPhonePitch"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PHONE: " />
-        </LinearLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="350dp"
-        android:orientation="horizontal"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="50dp">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="20dp"
-            android:text="Type pitch: " />
-
-        <Spinner
-            android:id="@+id/spTypePitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="120dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="20dp"></Spinner>
-
-        <GridLayout
-            android:id="@+id/gridOfCbSlot"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:columnCount="4"
-            android:orientation="horizontal">
-            <!--<CheckBox-->
-            <!--android:id="@+id/cbSlot"-->
-            <!--android:layout_width="80dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Slot 1"/>-->
-        </GridLayout>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/txtPickDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="190dp"
-            android:onClick="clickToPickDate"
-            android:hint="Click Here To Pick Date"
-            />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:src="@drawable/ball2" />
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/spPitchName"
-            android:layout_marginStart="20dp"
-            android:text="Pitch: " />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="250dp"
+                android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spPitchName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="240dp"></Spinner>
+                <ImageView
+                    android:id="@+id/imgAvatarPitch"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="0dp"
+                    android:src="@drawable/ball2" />
 
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txtTotal"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="-20dp"
-            android:layout_marginEnd="366dp"
-            android:text="Total: " />
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="100dp"
+                    android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtTotal"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="290dp"
-            android:text="2000k" />
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/txtNamePitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="NAME: " />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="686dp"
-        android:onClick="clickToBooked"
-        android:text="Book" />
+                    <TextView
+                        android:id="@+id/txtAddressPitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="ADDRESS: " />
 
+                    <TextView
+                        android:id="@+id/txtPhonePitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="PHONE: " />
+                </LinearLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="350dp"
+                android:orientation="horizontal"
+                android:paddingBottom="50dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Type pitch: " />
+
+                <Spinner
+                    android:id="@+id/spTypePitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="20dp"></Spinner>
+
+                <GridLayout
+                    android:id="@+id/gridOfCbSlot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp"
+                    android:columnCount="4"
+                    android:orientation="horizontal">
+                    <!--<CheckBox-->
+                    <!--android:id="@+id/cbSlot"-->
+                    <!--android:layout_width="80dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Slot 1"/>-->
+                </GridLayout>
+
+                <TextView
+                    android:id="@+id/txtPickDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="190dp"
+                    android:hint="Click Here To Pick Date"
+                    android:onClick="clickToPickDate" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/spPitchName"
+                    android:layout_marginStart="20dp"
+                    android:text="Pitch: " />
+
+                <Spinner
+                    android:id="@+id/spPitchName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="240dp"></Spinner>
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="366dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="290dp"
+                    android:text="Total: " />
+
+                <TextView
+                    android:id="@+id/txtTotal"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="290dp"
+                    android:text="2000" />
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="686dp"
+                android:onClick="clickToBooked"
+                android:text="Book" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

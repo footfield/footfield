@@ -36,7 +36,7 @@ public class CustomAdapterHistory extends ArrayAdapter<History> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.row_listviewhistory, parent, false);
             viewHolder = new ViewHolder2();
-            viewHolder.txtStt = convertView.findViewById(R.id.txtSttRowHistory);
+//            viewHolder.txtStt = convertView.findViewById(R.id.txtSttRowHistory);
             viewHolder.txtLocationName = convertView.findViewById(R.id.txtLocationNameRowList);
             viewHolder.txtDatePicked = convertView.findViewById(R.id.txtDatePickedRowList);
             viewHolder.txtPrice = convertView.findViewById(R.id.txtPriceRowList);
@@ -48,7 +48,7 @@ public class CustomAdapterHistory extends ArrayAdapter<History> {
         History history = arrHistory.get(position);
 
 
-        viewHolder.txtStt.setText(history.getStt()+"");
+//        viewHolder.txtStt.setText(history.getStt()+"");
         viewHolder.txtLocationName.setText(history.getLocationName());
         viewHolder.txtDatePicked.setText(history.getDatePicked());
         viewHolder.txtPrice.setText(history.getTotalPrice());
