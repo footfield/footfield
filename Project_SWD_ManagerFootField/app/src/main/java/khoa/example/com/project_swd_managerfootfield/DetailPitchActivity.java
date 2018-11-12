@@ -1,5 +1,6 @@
 package khoa.example.com.project_swd_managerfootfield;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +9,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +58,12 @@ public class DetailPitchActivity extends AppCompatActivity {
     List<Integer> listIdOfSlot;
     int keyOfTypePitch;
 
+
+    String dateNow, datePick;
+    TextView txtPickDate;
+
+    Date resultNow, resultPick;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +72,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtNamePitch);
         txtAddress = findViewById(R.id.txtAddressPitch);
         txtPhone = findViewById(R.id.txtPhonePitch);
+        txtPickDate = findViewById(R.id.txtPickDate);
 
         listIdOfSlot = new ArrayList<>();
 
@@ -230,5 +242,46 @@ public class DetailPitchActivity extends AppCompatActivity {
             }
         }
         return 0;
+    }
+
+    public void clickToPickDate(View view) {
+        final Calendar calendar = Calendar.getInstance();
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+
+
+        dateNow = simpleDateFormat.format(calendar.getTime());
+        try {
+            resultNow = simpleDateFormat.parse(dateNow);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        Toast.makeText(DetailPitchActivity.this, dateNow, Toast.LENGTH_SHORT).show();
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                calendar.set(i, i1, i2);
+                datePick = simpleDateFormat.format(calendar.getTime());
+                txtPickDate.setText(datePick);
+                try {
+                    resultPick = simpleDateFormat.parse(datePick);
+                    if (resultPick.before(resultNow)) {
+                        Toast.makeText(DetailPitchActivity.this, "SAI", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(DetailPitchActivity.this, datePick, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, year, month, day);
+        datePickerDialog.show();
     }
 }

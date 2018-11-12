@@ -87,7 +87,7 @@
             android:id="@+id/gridOfCbSlot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="80dp"
             android:columnCount="4"
             android:orientation="horizontal">
             <!--<CheckBox-->
@@ -96,6 +96,16 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:text="Slot 1"/>-->
         </GridLayout>
+
+        <TextView
+            android:id="@+id/txtPickDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
+            android:onClick="clickToPickDate"
+            android:hint="Click Here To Pick Date"
+            />
 
         <TextView
             android:layout_width="80dp"
@@ -110,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="120dp"
-            android:layout_marginTop="180dp"></Spinner>
+            android:layout_marginTop="240dp"></Spinner>
 
         <TextView
             android:layout_width="80dp"
@@ -128,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="100dp"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="290dp"
             android:text="2000k" />
     </RelativeLayout>
 
@@ -138,7 +148,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="646dp"
+        android:layout_marginTop="686dp"
         android:onClick="clickToBookField"
         android:text="Book" />
 
