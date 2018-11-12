@@ -23,12 +23,12 @@
         <activity android:name=".InformationUserActivity" />
         <activity android:name=".FindPitchActivity" />
         <activity android:name=".ManagerActivity" />
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".ForgetPasswordActivity"/>
-        <activity android:name=".ChangePasswordActivity"/>
-        <activity android:name=".HistoryActivity"/>
-        <activity android:name=".DetailPitchActivity"></activity>
-
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ForgetPasswordActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".DetailPitchActivity" />
+        <activity android:name=".BookedActivity"></activity>
     </application>
 
 </manifest>

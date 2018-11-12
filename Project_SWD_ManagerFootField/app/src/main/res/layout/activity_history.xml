@@ -10,8 +10,15 @@
         android:id="@+id/txtHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="History is emmty"
         android:gravity="center"
         />
+    <ListView
+        android:id="@+id/listViewHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        >
+
+    </ListView>
 
 </RelativeLayout>

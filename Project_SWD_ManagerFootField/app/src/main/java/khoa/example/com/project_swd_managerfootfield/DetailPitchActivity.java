@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,7 +36,7 @@ import retrofit2.Response;
 
 public class DetailPitchActivity extends AppCompatActivity {
 
-    TextView txtName, txtAddress, txtPhone;
+    TextView txtName, txtAddress, txtPhone, txtTotal;
     Spinner spTypePitch, spPitchName;
     GridLayout gridOfCbSlot;
 
@@ -58,6 +59,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     List<Integer> listIdOfSlot;
     int keyOfTypePitch;
 
+    LocationInfoVM obj;
 
     String dateNow, datePick;
     TextView txtPickDate;
@@ -72,12 +74,13 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtName = findViewById(R.id.txtNamePitch);
         txtAddress = findViewById(R.id.txtAddressPitch);
         txtPhone = findViewById(R.id.txtPhonePitch);
+        txtTotal = findViewById(R.id.txtTotal);
         txtPickDate = findViewById(R.id.txtPickDate);
 
         listIdOfSlot = new ArrayList<>();
 
         Intent intent = getIntent();
-        LocationInfoVM obj = (LocationInfoVM) intent.getSerializableExtra("pitch");
+        obj = (LocationInfoVM) intent.getSerializableExtra("pitch");
         loadInformationOfPitch(obj);
 
         //set spiner list type pitch
@@ -231,8 +234,6 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtPhone.setText("PHONE: " + location.getPhone());
     }
 
-    public void clickToBookField(View view) {
-    }
 
     public int returnKeyOfPitchType(Map<Integer, String> map, Spinner spinner) {
         for (Map.Entry<Integer, String> entry : map.entrySet()) {
@@ -273,7 +274,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                     resultPick = simpleDateFormat.parse(datePick);
                     if (resultPick.before(resultNow)) {
                         Toast.makeText(DetailPitchActivity.this, "SAI", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(DetailPitchActivity.this, datePick, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
@@ -283,5 +284,27 @@ public class DetailPitchActivity extends AppCompatActivity {
             }
         }, year, month, day);
         datePickerDialog.show();
+    }
+
+    public void clickToBooked(View view) {
+        Intent intent = new Intent(DetailPitchActivity.this, BookedActivity.class);
+        intent.putExtra("locationName", obj.getLocationName());
+        intent.putExtra("address", obj.getAddress());
+        intent.putExtra("phone", obj.getPhone());
+
+        String typeOfPitch = spTypePitch.getSelectedItem().toString();
+        intent.putExtra("typeOfPitch", typeOfPitch);
+
+        String nameOfPitch = spPitchName.getSelectedItem().toString();
+        intent.putExtra("nameOfPitch", "aaa");
+
+        intent.putExtra("dateNow", dateNow);
+        intent.putExtra("datePicked", datePick);
+
+        intent.putExtra("listIdOfSlot", (Serializable) listIdOfSlot);
+        intent.putExtra("price", txtTotal.getText().toString());
+        intent.putExtra("status", "not yet");
+
+        startActivity(intent);
     }
 }

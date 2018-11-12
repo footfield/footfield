@@ -2,46 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imgAvatarRowLists"
+        <TextView
+            android:id="@+id/txtSttRowHistory"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginStart="0dp"
             />
 
-            <LinearLayout
-                android:layout_width="350dp"
-                android:layout_height="150dp"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtNameRowList"
+            <TextView
+                android:id="@+id/txtLocationNameRowList"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NAME" />
+                android:text="Location Name: " />
 
             <TextView
-                android:id="@+id/txtAddressRowList"
+                android:id="@+id/txtDatePickedRowList"
                 android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DIA CHI" />
+                android:text="Date Picked: " />
 
             <TextView
-                android:id="@+id/txtPhoneRowList"
+                android:id="@+id/txtPriceRowList"
                 android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SO DIEN THOAI" />
+                android:text="Price: " />
         </LinearLayout>
     </LinearLayout>
-
-
 </LinearLayout>
