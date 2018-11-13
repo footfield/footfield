@@ -12,7 +12,7 @@
         android:layout_height="170dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp" />
+        android:layout_marginTop="52dp" />
 
     <Button
         android:id="@+id/btnChooseFile"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="192dp"
+        android:layout_marginTop="225dp"
         android:text="Choose file" />
 
     <EditText
@@ -28,7 +28,7 @@
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="255dp"
+        android:layout_marginTop="275dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/name"
@@ -40,7 +40,7 @@
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="316dp"
+        android:layout_marginTop="336dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/name"
@@ -52,7 +52,7 @@
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="376dp"
+        android:layout_marginTop="396dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/phone"
@@ -64,7 +64,7 @@
         android:layout_width="384dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="436dp"
+        android:layout_marginTop="456dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/boder"
         android:drawableLeft="@drawable/address"
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="499dp"
+        android:layout_marginTop="520dp"
         android:layout_marginBottom="305dp"
         android:background="@drawable/corners"
         android:text="Setting"
@@ -86,16 +86,16 @@
 
     <Button
         android:id="@+id/btnUpdate"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="550dp"
+        android:layout_marginTop="520dp"
         android:layout_marginBottom="305dp"
         android:background="@drawable/corners"
         android:text="Update"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btnChangePass"

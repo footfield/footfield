@@ -3,6 +3,7 @@ package khoa.example.com.project_swd_managerfootfield;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -99,4 +100,9 @@ public class BookedActivity extends AppCompatActivity {
         });
     }
 
+    public void clickToBooked(View view) {
+        Intent intent=new Intent(BookedActivity.this,ManagerActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

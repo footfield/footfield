@@ -190,6 +190,7 @@
                     android:layout_height="50dp"
                     android:background="@color/colorPrimary2"
                     android:text="DONE"
+                    android:onClick="clickToBooked"
                     android:textColor="#FFFF"
                     android:textSize="30dp" />
 

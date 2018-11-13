@@ -97,6 +97,7 @@ public class InformationUserActivity extends AppCompatActivity {
                 edtPhoneUpdate.setEnabled(true);
                 edtAddressUpdate.setEnabled(true);
                 btnUpdate.setVisibility(View.VISIBLE);
+                btnSetting.setVisibility(View.INVISIBLE);
             }
         });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -215,6 +216,7 @@ public class InformationUserActivity extends AppCompatActivity {
                         userInfoVM.setImage(imgUri.toString());
                     }
                     updateUser();
+                    finish();
                 }
             }
         }
@@ -230,6 +232,7 @@ public class InformationUserActivity extends AppCompatActivity {
                     return;
                 }
                 Toast.makeText(InformationUserActivity.this, "Update success", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -250,7 +253,7 @@ public class InformationUserActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
 
             imgUri = data.getData();
-            Toast.makeText(getApplicationContext(), imgUri.toString(), Toast.LENGTH_SHORT).show();
+
 //            imgView.setImageURI(imgUri);
             String tmp = imgUri.toString();
             imgView.setImageURI(Uri.parse(tmp));

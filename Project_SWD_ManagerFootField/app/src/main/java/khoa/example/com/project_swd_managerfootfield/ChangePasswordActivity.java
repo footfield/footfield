@@ -131,6 +131,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) return;
                 if (response.body()) {
                     Toast.makeText(getApplicationContext(), "Change success", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "Change fail!", Toast.LENGTH_SHORT).show();
                 }

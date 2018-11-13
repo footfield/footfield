@@ -29,22 +29,22 @@ public interface DataClient {
     @POST("login")
     Call<Integer> checkLogin(@Body LoginVM vm);
 
-    @POST("user/register")
+    @POST("user-register")
     Call<RegisterVM> createUser(@Body RegisterVM vm);
 
-    @POST("password/forgot")
+    @POST("password-forgot")
     Call<PasswordForgotVM> getNewPassword(@Body PasswordForgotVM vm);
 
-    @GET("user/info/{userId}")
+    @GET("user-info/{userId}")
     Call<AppUserVM> getUserInfo(@Path("userId") int userId);
 
-    @PUT("user/update")
+    @PUT("user-update")
     Call<AppUserVM> updateUser(@Body AppUserVM vm);
 
-    @PUT("password/change")
+    @PUT("password-change")
     Call<Boolean> updatePassword(@Body PasswordChangeVM vm);
 
-    @GET("district/all")
+    @GET("district-all")
     Call<List<DistrictVM>> getAllDistrict();
 
     @GET("location-info/district/{id}")
@@ -53,7 +53,7 @@ public interface DataClient {
     @GET("slot")
     Call<List<SlotOfPitchVM>> getAllSlot();
 
-    @GET("footfield/type/{locationId}")
+    @GET("footfield-type/{locationId}")
     Call<List<TypePitchVM>> getFieldTypeLocation(@Path("locationId") int id);
 
     @POST("field-detail")

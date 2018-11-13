@@ -8,14 +8,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -65,11 +69,14 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     LocationInfoVM obj;
 
+    Button btnBook;
+
     String dateNow, datePick;
     TextView txtPickDate;
 
     Date resultNow, resultPick;
 
+    ImageView imgAvatarPitch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +87,10 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhonePitch);
         txtTotal = findViewById(R.id.txtTotal);
         txtPickDate = findViewById(R.id.txtPickDate);
+        imgAvatarPitch=findViewById(R.id.imgAvatarPitch);
+
+        btnBook = findViewById(R.id.btnBooked);
+
 
         listIdOfSlot = new ArrayList<>();
 
@@ -174,10 +185,16 @@ public class DetailPitchActivity extends AppCompatActivity {
                                         listIdOfSlot.remove(i);
                                     }
                                 }
+
                             }
                             getTotal(keyOfTypePitch, listIdOfSlot);
+                            txtTotal.setText(String.valueOf(getTotal(keyOfTypePitch, listIdOfSlot)));
                             if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                                 loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
+                            }
+                            if (listIdOfSlot.size() == 0) {
+                                spPitchName.setAdapter(null);
+                                fieldDetailID = 0;
                             }
                         }
                     });
@@ -237,6 +254,7 @@ public class DetailPitchActivity extends AppCompatActivity {
 
     public void loadInformationOfPitch(LocationInfoVM location) {
         //load image
+        Picasso.get().load(location.getImage()).into(imgAvatarPitch);
         txtName.setText("NAME: " + location.getLocationName());
         txtAddress.setText("ADDRESS: " + location.getAddress());
         txtPhone.setText("PHONE: " + location.getPhone());
@@ -277,14 +295,14 @@ public class DetailPitchActivity extends AppCompatActivity {
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 calendar.set(i, i1, i2);
                 datePick = simpleDateFormat.format(calendar.getTime());
-                txtPickDate.setText(datePick);
+                //txtPickDate.setText(datePick);
                 try {
                     //resultPick = calendar.getTime();
                     resultPick = new SimpleDateFormat("dd/MM/yyyy").parse(datePick);
                     if (resultPick.before(resultNow)) {
-                        Toast.makeText(DetailPitchActivity.this, "SAI", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailPitchActivity.this, "Can't book a day in the past!!!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(DetailPitchActivity.this, datePick, Toast.LENGTH_SHORT).show();
+                        txtPickDate.setText(datePick);
                         if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                             loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                         }
@@ -299,6 +317,10 @@ public class DetailPitchActivity extends AppCompatActivity {
     }
 
     public void clickToBooked(View view) {
+        //moi them
+        if (fieldDetailID == 0) {
+            return;
+        }
         bookPitch();
     }
 
@@ -329,6 +351,7 @@ public class DetailPitchActivity extends AppCompatActivity {
             }
         });
     }
+
     private double getTotal(int idTypeOfPitch, List<Integer> listSlotOfPitch) {
 
         double priceOfTypePitch = 0;
@@ -348,9 +371,13 @@ public class DetailPitchActivity extends AppCompatActivity {
                 }
             }
         }
-        total=total*priceOfTypePitch;
+        total = total * priceOfTypePitch;
 
-        Toast.makeText(DetailPitchActivity.this,String.valueOf(total),Toast.LENGTH_SHORT).show();
+        if (total == 0) {
+            btnBook.setEnabled(false);
+        }else{
+            btnBook.setEnabled(true);
+        }
         return total;
     }
 }

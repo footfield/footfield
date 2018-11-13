@@ -36,7 +36,7 @@ public class CustomAdapterHistory extends ArrayAdapter<HistoryVM> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.row_listviewhistory, parent, false);
             viewHolder = new ViewHolder2();
-//            viewHolder.txtStt = convertView.findViewById(R.id.txtSttRowHistory);
+            viewHolder.txtStt = convertView.findViewById(R.id.txtSttRowHistory);
             viewHolder.txtLocationName = convertView.findViewById(R.id.txtLocationNameRowList);
             viewHolder.txtDatePicked = convertView.findViewById(R.id.txtDatePickedRowList);
             viewHolder.txtPrice = convertView.findViewById(R.id.txtPriceRowList);
@@ -48,7 +48,7 @@ public class CustomAdapterHistory extends ArrayAdapter<HistoryVM> {
         HistoryVM historyVM = arrHistoryVM.get(position);
 
 
-//        viewHolder.txtStt.setText(historyVM.getStt()+"");
+        viewHolder.txtStt.setText(String.valueOf(position+1));
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         viewHolder.txtLocationName.setText(historyVM.getLocationName());
         viewHolder.txtDatePicked.setText(simpleDateFormat.format(new Date(historyVM.getDatePicked())) + " VND");
