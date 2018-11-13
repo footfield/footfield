@@ -12,34 +12,37 @@
             android:id="@+id/imgAvatarRowLists"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginStart="0dp"
-            />
+            android:layout_marginStart="0dp" />
 
-            <LinearLayout
-                android:layout_width="350dp"
-                android:layout_height="150dp"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
 
-                <TextView
-                    android:id="@+id/txtNameRowList"
-                android:layout_marginTop="10dp"
+            <TextView
+                android:id="@+id/txtNameRowList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NAME" />
+                android:layout_marginTop="10dp"
+                android:text="NAME"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtAddressRowList"
-                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DIA CHI" />
+                android:layout_marginTop="30dp"
+                android:text="DIA CHI"
+                android:textStyle="bold"  />
 
             <TextView
                 android:id="@+id/txtPhoneRowList"
-                android:layout_marginTop="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SO DIEN THOAI" />
+                android:layout_marginTop="30dp"
+                android:text="SO DIEN THOAI"
+                android:textStyle="bold"  />
         </LinearLayout>
     </LinearLayout>
 
