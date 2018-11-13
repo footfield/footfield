@@ -1,5 +1,6 @@
 package khoa.example.com.project_swd_managerfootfield;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -8,10 +9,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.ApiUtils;
+import khoa.example.com.project_swd_managerfootfield.Retrofit2.DataClient;
+import khoa.example.com.project_swd_managerfootfield.VM.HistoryVM;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HistoryActivity extends AppCompatActivity {
 
     ListView listViewHistory;
     TextView txtHistory;
+
+    DataClient dataClient;
+    Call<List<HistoryVM> > historyCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,19 +30,32 @@ public class HistoryActivity extends AppCompatActivity {
 
         listViewHistory=findViewById(R.id.listViewHistory);
         txtHistory=findViewById(R.id.txtHistory);
+        SharedPreferences share = getSharedPreferences("com.khoa.filetoken", MODE_PRIVATE);
+        String userId = share.getString("userid", null);
+        loadHistory(Integer.parseInt(userId));
 
-        List<History> list=new ArrayList<>();
-        list.add(new History(1,"nghia thao","11/11/2018","123"));
-        list.add(new History(2,"nghia thao","11/11/2018","123"));
-        list.add(new History(3,"nghia thao","11/11/2018","123"));
-        list.add(new History(4,"nghia thao","11/11/2018","123"));
+    }
+    private void loadHistory(int userId){
+        dataClient = ApiUtils.getData();
+        historyCall = dataClient.getHistory(userId);
+        historyCall.enqueue(new Callback<List<HistoryVM> >() {
+            @Override
+            public void onResponse(Call<List<HistoryVM> > call, Response<List<HistoryVM> > response) {
+                if (!response.isSuccessful()) return;
+                List<HistoryVM> vms = response.body();
 
-        if(list==null){
-            txtHistory.setText("History is empty");
-        }else{
-            CustomAdapterHistory adapter=new CustomAdapterHistory(HistoryActivity.this,R.layout.row_listviewhistory,list);
-            listViewHistory.setAdapter(adapter);
-        }
+                if(vms==null){
+                    txtHistory.setText("HistoryVM is empty");
+                }else{
+                    CustomAdapterHistory adapter=new CustomAdapterHistory(HistoryActivity.this,R.layout.row_listviewhistory,vms);
+                    listViewHistory.setAdapter(adapter);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<HistoryVM> > call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -42,7 +42,6 @@ public class FindPitchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_find_pitch);
 
         listPitch = findViewById(R.id.listView);
-
         spLocation = findViewById(R.id.spLocation);
 
         getAllDis();
@@ -63,7 +62,6 @@ public class FindPitchActivity extends AppCompatActivity {
                     disNames.add(vms.get(i).getDisName());
                     disMap.put(vms.get(i).getDisName(), vms.get(i).getId());
                 }
-
                 loadPage();
             }
 
@@ -77,6 +75,10 @@ public class FindPitchActivity extends AppCompatActivity {
     private void loadPage() {
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, disNames);
         spLocation.setAdapter(adapter);
+
+        String name = spLocation.getSelectedItem().toString();
+        int positions = disMap.get(name);
+        generationListTest(positions);
 
         spLocation.setOnItemSelectedListener(new com.rey.material.widget.Spinner.OnItemSelectedListener() {
             @Override
@@ -105,8 +107,8 @@ public class FindPitchActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         LocationInfoVM obj = (LocationInfoVM) listPitch.getItemAtPosition(i);
-                       Intent intent=new Intent(getApplicationContext(),DetailPitchActivity.class);
-                        intent.putExtra("pitch",obj);
+                        Intent intent = new Intent(getApplicationContext(), DetailPitchActivity.class);
+                        intent.putExtra("pitch", obj);
                         startActivity(intent);
 
                     }

@@ -18,8 +18,8 @@ import retrofit2.Response;
 
 public class BookedActivity extends AppCompatActivity {
 
-    TextView txtLocationName,txtAddress,txtPhone,txtTypeOfPitch,txtNameOfPitch,
-    txtDateBook,txtDatePicked,txtPrice;
+    TextView txtLocationName,txtAddress,txtPhone,txtTypeName,
+    txtDateBook,txtDatePicked,txtPrice,txtSlot;
 
     DataClient dataClient;
     Call<OrderInfoVM> orderInfoVMCall;
@@ -36,10 +36,10 @@ public class BookedActivity extends AppCompatActivity {
         Intent intent=getIntent();
 
         txtLocationName=findViewById(R.id.txtLocationName);
-        txtAddress=findViewById(R.id.txtAddtess);
+        txtAddress=findViewById(R.id.txtAddress);
         txtPhone=findViewById(R.id.txtPhone);
-        txtTypeOfPitch=findViewById(R.id.txtTypeOfPitch);
-        txtNameOfPitch=findViewById(R.id.txtNameOfPitch);
+        txtTypeName=findViewById(R.id.txtTypeName);
+        txtSlot=findViewById(R.id.txtSlot);
         txtDateBook=findViewById(R.id.txtDateBook);
         txtDatePicked=findViewById(R.id.txtDatePicked);
         txtPrice=findViewById(R.id.txtPrice);
@@ -81,8 +81,12 @@ public class BookedActivity extends AppCompatActivity {
                 txtLocationName.setText(locationInfoVM.getLocationName());
                 txtAddress.setText(locationInfoVM.getAddress());
                 txtPhone.setText(locationInfoVM.getPhone());
-                txtTypeOfPitch.setText(orderInfoVM.getType());
-                txtNameOfPitch.setText(orderInfoVM.getFieldName());
+                txtTypeName.setText(orderInfoVM.getFieldName() + " - " +orderInfoVM.getType());
+                String slot = "";
+                for (String tmp: orderInfoVM.getSlotVMs()) {
+                    slot += tmp +"\n";
+                }
+                txtSlot.setText(slot);
                 txtDateBook.setText(simpleDateFormat.format(new Date(orderInfoVM.getDateBook())));
                 txtDatePicked.setText(simpleDateFormat.format(new Date(orderInfoVM.getDateTookPlace())));
                 txtPrice.setText(String.valueOf(orderInfoVM.getTotalPrice()));

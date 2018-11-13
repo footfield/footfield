@@ -44,4 +44,20 @@ public class SlotOfPitchVM {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getSlotName() {
+        return slotName;
+    }
+
+    public void setSlotName(String slotName) {
+        this.slotName = slotName;
+    }
+
+    public double getMutiple() {
+        return mutiple;
+    }
+
+    public void setMutiple(double mutiple) {
+        this.mutiple = mutiple;
+    }
 }

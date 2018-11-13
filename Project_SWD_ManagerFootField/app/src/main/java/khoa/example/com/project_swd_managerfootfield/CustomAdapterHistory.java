@@ -7,26 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import khoa.example.com.project_swd_managerfootfield.VM.HistoryVM;
 
 
-public class CustomAdapterHistory extends ArrayAdapter<History> {
+public class CustomAdapterHistory extends ArrayAdapter<HistoryVM> {
 
     private Context context;
     private int resource;
-    private List<History> arrHistory;
+    private List<HistoryVM> arrHistoryVM;
 
-    public CustomAdapterHistory(Context context, int resource, List<History> arrHistory) {
-        super(context, resource, arrHistory);
+    public CustomAdapterHistory(Context context, int resource, List<HistoryVM> arrHistoryVM) {
+        super(context, resource, arrHistoryVM);
         this.context = context;
         this.resource = resource;
-        this.arrHistory = arrHistory;
+        this.arrHistoryVM = arrHistoryVM;
     }
 
     @NonNull
@@ -45,13 +45,14 @@ public class CustomAdapterHistory extends ArrayAdapter<History> {
         } else {
             viewHolder = (ViewHolder2) convertView.getTag();
         }
-        History history = arrHistory.get(position);
+        HistoryVM historyVM = arrHistoryVM.get(position);
 
 
-//        viewHolder.txtStt.setText(history.getStt()+"");
-        viewHolder.txtLocationName.setText(history.getLocationName());
-        viewHolder.txtDatePicked.setText(history.getDatePicked());
-        viewHolder.txtPrice.setText(history.getTotalPrice());
+//        viewHolder.txtStt.setText(historyVM.getStt()+"");
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        viewHolder.txtLocationName.setText(historyVM.getLocationName());
+        viewHolder.txtDatePicked.setText(simpleDateFormat.format(new Date(historyVM.getDatePicked())) + " VND");
+        viewHolder.txtPrice.setText(historyVM.getTotalPrice());
         return convertView;
     }
 

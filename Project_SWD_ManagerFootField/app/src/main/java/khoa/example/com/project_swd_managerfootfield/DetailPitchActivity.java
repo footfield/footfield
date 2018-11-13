@@ -128,6 +128,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         keyOfTypePitch = returnKeyOfPitchType(mapTypePitch, spTypePitch);
+                        getTotal(keyOfTypePitch, listIdOfSlot);
                         if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                             loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                         }
@@ -174,6 +175,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+                            getTotal(keyOfTypePitch, listIdOfSlot);
                             if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                                 loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                             }
@@ -326,5 +328,29 @@ public class DetailPitchActivity extends AppCompatActivity {
                 System.out.println("+++++++++++++++++++++++++fail:" + t.getMessage());
             }
         });
+    }
+    private double getTotal(int idTypeOfPitch, List<Integer> listSlotOfPitch) {
+
+        double priceOfTypePitch = 0;
+        double total = 0;
+
+        for (int i = 0; i < listTypePitch.size(); i++) {
+            if (idTypeOfPitch == listTypePitch.get(i).getId()) {
+                priceOfTypePitch = listTypePitch.get(i).getPrice();
+                break;
+            }
+        }
+        List<SlotOfPitchVM> list = listSlot;
+        for (int i = 0; i < listSlotOfPitch.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (listSlotOfPitch.get(i) == list.get(j).getId()) {
+                    total = total + list.get(j).getMutiple();
+                }
+            }
+        }
+        total=total*priceOfTypePitch;
+
+        Toast.makeText(DetailPitchActivity.this,String.valueOf(total),Toast.LENGTH_SHORT).show();
+        return total;
     }
 }

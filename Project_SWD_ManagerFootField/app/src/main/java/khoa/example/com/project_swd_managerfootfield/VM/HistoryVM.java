@@ -1,9 +1,9 @@
-package khoa.example.com.project_swd_managerfootfield;
+package khoa.example.com.project_swd_managerfootfield.VM;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class History {
+public class HistoryVM {
 
     @SerializedName("orderId")
     @Expose
@@ -17,18 +17,18 @@ public class History {
     @Expose
     private String locationName;
 
-    @SerializedName("datePicked")
+    @SerializedName("dateTookPlace")
     @Expose
-    private String datePicked;
+    private Long datePicked;
 
     @SerializedName("totalPrice")
     @Expose
     private String totalPrice;
 
-    public History() {
+    public HistoryVM() {
     }
 
-    public History(int orderId, int userId, String locationName, String datePicked, String totalPrice) {
+    public HistoryVM(int orderId, int userId, String locationName, Long datePicked, String totalPrice) {
         this.orderId = orderId;
         this.userId = userId;
         this.locationName = locationName;
@@ -60,11 +60,11 @@ public class History {
         this.locationName = locationName;
     }
 
-    public String getDatePicked() {
+    public Long getDatePicked() {
         return datePicked;
     }
 
-    public void setDatePicked(String datePicked) {
+    public void setDatePicked(Long datePicked) {
         this.datePicked = datePicked;
     }
 

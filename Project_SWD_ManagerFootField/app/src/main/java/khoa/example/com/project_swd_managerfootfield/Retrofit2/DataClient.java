@@ -5,6 +5,7 @@ import java.util.List;
 
 import khoa.example.com.project_swd_managerfootfield.PitchDetail;
 import khoa.example.com.project_swd_managerfootfield.VM.DistrictVM;
+import khoa.example.com.project_swd_managerfootfield.VM.HistoryVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LocationInfoVM;
 import khoa.example.com.project_swd_managerfootfield.VM.LoginVM;
 import khoa.example.com.project_swd_managerfootfield.VM.OrderInfoVM;
@@ -66,6 +67,9 @@ public interface DataClient {
 
     @GET("location/{id}")
     Call<LocationInfoVM> getLocation(@Path("id") int id);
+
+    @GET("history/{userId}")
+    Call<List<HistoryVM> > getHistory(@Path("userId") int userId);
 
 
 //    @GET("english/{id}")
