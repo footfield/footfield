@@ -188,7 +188,8 @@ public class DetailPitchActivity extends AppCompatActivity {
                                     }
                                 }
                                 if (!txtPickDate.getText().toString().equals("Click Here To Pick Date")) {
-                                    if (resultPick.compareTo(resultNow) == 0) {
+                                    if (resultPick.getTime() == resultNow.getTime()) {
+
                                         Calendar calendar = Calendar.getInstance();
                                         calendar.get(Calendar.HOUR_OF_DAY);
                                         String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
@@ -198,7 +199,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                                         if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
                                             compoundButton.setChecked(false);
                                             Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
-                                        }else{
+                                        } else {
                                             listIdOfSlot.add(compoundButton.getId());
                                         }
                                     } else {
@@ -206,6 +207,10 @@ public class DetailPitchActivity extends AppCompatActivity {
                                     }
                                 }
                             } else {
+                                if (resultPick == null) {
+                                    listIdOfSlot.add(compoundButton.getId());
+                                    return;
+                                }
                                 for (int i = 0; i < listIdOfSlot.size(); i++) {
                                     if (listIdOfSlot.get(i) == compoundButton.getId()) {
                                         listIdOfSlot.remove(i);
@@ -355,7 +360,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                             if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
                                 cbSlot.setChecked(false);
                                 Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                                     loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                                 }
