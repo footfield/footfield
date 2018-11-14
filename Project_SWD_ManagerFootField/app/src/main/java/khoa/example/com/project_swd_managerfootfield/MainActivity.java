@@ -122,6 +122,10 @@ public class MainActivity extends AppCompatActivity {
                     setToken(loginVM.getUsername(), loginVM.getPassword(), result);
                     Intent intent = new Intent(MainActivity.this, ManagerActivity.class);
                     intent.putExtra("userid", result+"");
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.khoa.filetoken",MODE_PRIVATE);
+                    SharedPreferences.Editor edit=sharedPreferences.edit();
+                    edit.putString("userid",result+"");
+                    edit.commit();
                     startActivity(intent);
                     finish();
                 } else {

@@ -123,7 +123,12 @@ public class InformationUserActivity extends AppCompatActivity {
 
     private void loadUserInfo() {
         Intent it = this.getIntent();
-        String userId = it.getStringExtra("userid");
+        String userId = null;
+       // userId=it.getStringExtra("userid");
+        SharedPreferences sharedPreferences = getSharedPreferences("com.khoa.filetoken",MODE_PRIVATE);
+        userId=sharedPreferences.getString("userid","");
+
+
 
         dataClient = ApiUtils.getData();
         call = dataClient.getUserInfo(Integer.parseInt(userId));
