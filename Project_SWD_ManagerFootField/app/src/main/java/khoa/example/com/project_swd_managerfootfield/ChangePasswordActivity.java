@@ -3,6 +3,7 @@ package khoa.example.com.project_swd_managerfootfield;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -112,7 +113,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     dlgAlert.create().show();
                     edtConfirmPass.requestFocus();
                 } else {
-                    String userId = this.getIntent().getStringExtra("userid");
+                    //String userId = this.getIntent().getStringExtra("userid");
+                    SharedPreferences sharedPreferences = getSharedPreferences("com.khoa.filetoken",MODE_PRIVATE);
+                   String userId=sharedPreferences.getString("userid","");
                     updatePassword(new PasswordChangeVM(Integer.parseInt(userId), md5(edtNewPass.getText().toString())));
                     Intent intent = new Intent(ChangePasswordActivity.this, InformationUserActivity.class);
                     intent.putExtra("userid", userId+"");

@@ -77,6 +77,7 @@ public class DetailPitchActivity extends AppCompatActivity {
     Date resultNow, resultPick;
 
     ImageView imgAvatarPitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhonePitch);
         txtTotal = findViewById(R.id.txtTotal);
         txtPickDate = findViewById(R.id.txtPickDate);
-        imgAvatarPitch=findViewById(R.id.imgAvatarPitch);
+        imgAvatarPitch = findViewById(R.id.imgAvatarPitch);
 
         btnBook = findViewById(R.id.btnBooked);
 
@@ -168,22 +169,59 @@ public class DetailPitchActivity extends AppCompatActivity {
             public void onResponse(Call<List<SlotOfPitchVM>> call, Response<List<SlotOfPitchVM>> response) {
                 if (!response.isSuccessful()) return;
                 listSlot = response.body();
-                for (SlotOfPitchVM s : listSlot) {
+                for (final SlotOfPitchVM s : listSlot) {
                     // com.rey.material.widget.CheckBox cbSlot = new com.rey.material.widget.CheckBox(DetailPitchActivity.this);
                     cbSlot = new com.rey.material.widget.CheckBox(DetailPitchActivity.this);
                     cbSlot.setText(s.getDescription());
                     cbSlot.setId(s.getId());
 
                     cbSlot.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
                         @Override
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             if (b) {
-                                listIdOfSlot.add(compoundButton.getId());
+                                //them
+                                if (!txtPickDate.getText().toString().equals("Click Here To Pick Date")) {
+                                    if (resultPick == null) {
+                                        listIdOfSlot.add(compoundButton.getId());
+                                        return;
+                                    }
+                                }
+                                if (!txtPickDate.getText().toString().equals("Click Here To Pick Date")) {
+                                    if (resultPick.compareTo(resultNow) == 0) {
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.get(Calendar.HOUR_OF_DAY);
+                                        String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                                        String hoursePick = s.getDescription();
+                                        hoursePick = hoursePick.substring(hoursePick.lastIndexOf("-") + 1);
+                                        hoursePick = hoursePick.substring(0, hoursePick.lastIndexOf("h"));
+                                        if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
+                                            compoundButton.setChecked(false);
+                                            Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            listIdOfSlot.add(compoundButton.getId());
+                                        }
+                                    } else {
+                                        listIdOfSlot.add(compoundButton.getId());
+                                    }
+                                }
                             } else {
                                 for (int i = 0; i < listIdOfSlot.size(); i++) {
                                     if (listIdOfSlot.get(i) == compoundButton.getId()) {
                                         listIdOfSlot.remove(i);
                                     }
+                                }
+                                if (resultPick.compareTo(resultNow) == 0) {
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.get(Calendar.HOUR_OF_DAY);
+                                    String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                                    String hoursePick = s.getDescription();
+                                    hoursePick = hoursePick.substring(hoursePick.lastIndexOf("-") + 1);
+                                    hoursePick = hoursePick.substring(0, hoursePick.lastIndexOf("h"));
+                                    if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
+                                        compoundButton.setChecked(false);
+                                    }
+                                    //return;
                                 }
 
                             }
@@ -303,8 +341,25 @@ public class DetailPitchActivity extends AppCompatActivity {
                         Toast.makeText(DetailPitchActivity.this, "Can't book a day in the past!!!", Toast.LENGTH_SHORT).show();
                     } else {
                         txtPickDate.setText(datePick);
-                        if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
-                            loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
+
+                        //them
+                        if (resultPick.compareTo(resultNow) == 0) {
+                            int maxId = findMax(listIdOfSlot);
+                            SlotOfPitchVM instanceOfSlotOfPitchVMFindById = getDescriptionById(maxId);
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.get(Calendar.HOUR_OF_DAY);
+                            String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                            String hoursePick = instanceOfSlotOfPitchVMFindById.getDescription();
+                            hoursePick = hoursePick.substring(hoursePick.lastIndexOf("-") + 1);
+                            hoursePick = hoursePick.substring(0, hoursePick.lastIndexOf("h"));
+                            if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
+                                cbSlot.setChecked(false);
+                                Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
+                            }else{
+                                if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
+                                    loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
+                                }
+                            }
                         }
                     }
                 } catch (Exception ex) {
@@ -375,9 +430,29 @@ public class DetailPitchActivity extends AppCompatActivity {
 
         if (total == 0) {
             btnBook.setEnabled(false);
-        }else{
+        } else {
             btnBook.setEnabled(true);
         }
         return total;
     }
+
+    public static int findMax(List<Integer> list) {
+        int max = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) > max) {
+                max = list.get(i);
+            }
+        }
+        return max;
+    }
+
+    public SlotOfPitchVM getDescriptionById(int id) {
+        for (int i = 0; i < listSlot.size(); i++) {
+            if (id == listSlot.get(i).getId()) {
+                return listSlot.get(i);
+            }
+        }
+        return null;
+    }
+
 }
