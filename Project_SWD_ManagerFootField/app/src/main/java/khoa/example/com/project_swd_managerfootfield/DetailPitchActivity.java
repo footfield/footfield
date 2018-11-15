@@ -184,10 +184,9 @@ public class DetailPitchActivity extends AppCompatActivity {
                                 if (!txtPickDate.getText().toString().equals("Click Here To Pick Date")) {
                                     if (resultPick == null) {
                                         listIdOfSlot.add(compoundButton.getId());
-                                        return;
                                     }
                                 }
-                                if (!txtPickDate.getText().toString().equals("Click Here To Pick Date")) {
+                                if (!txtPickDate.getText().toString().equals("Click Here To Pick Date") && resultPick != null) {
                                     if (resultPick.compareTo(resultNow) == 0) {
                                         Calendar calendar = Calendar.getInstance();
                                         calendar.get(Calendar.HOUR_OF_DAY);
@@ -198,7 +197,7 @@ public class DetailPitchActivity extends AppCompatActivity {
                                         if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
                                             compoundButton.setChecked(false);
                                             Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
-                                        }else{
+                                        } else {
                                             listIdOfSlot.add(compoundButton.getId());
                                         }
                                     } else {
@@ -206,22 +205,27 @@ public class DetailPitchActivity extends AppCompatActivity {
                                     }
                                 }
                             } else {
+                                if (resultPick == null) {
+                                    compoundButton.setChecked(false);
+                                }
                                 for (int i = 0; i < listIdOfSlot.size(); i++) {
                                     if (listIdOfSlot.get(i) == compoundButton.getId()) {
                                         listIdOfSlot.remove(i);
                                     }
                                 }
-                                if (resultPick.compareTo(resultNow) == 0) {
-                                    Calendar calendar = Calendar.getInstance();
-                                    calendar.get(Calendar.HOUR_OF_DAY);
-                                    String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-                                    String hoursePick = s.getDescription();
-                                    hoursePick = hoursePick.substring(hoursePick.lastIndexOf("-") + 1);
-                                    hoursePick = hoursePick.substring(0, hoursePick.lastIndexOf("h"));
-                                    if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
-                                        compoundButton.setChecked(false);
+                                if (!txtPickDate.getText().toString().equals("Click Here To Pick Date") && resultPick != null) {
+                                    if (resultPick.compareTo(resultNow) == 0) {
+                                        Calendar calendar = Calendar.getInstance();
+                                        calendar.get(Calendar.HOUR_OF_DAY);
+                                        String hourseNow = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                                        String hoursePick = s.getDescription();
+                                        hoursePick = hoursePick.substring(hoursePick.lastIndexOf("-") + 1);
+                                        hoursePick = hoursePick.substring(0, hoursePick.lastIndexOf("h"));
+                                        if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
+                                            compoundButton.setChecked(false);
+                                        }
+                                        //return;
                                     }
-                                    //return;
                                 }
 
                             }
@@ -268,6 +272,9 @@ public class DetailPitchActivity extends AppCompatActivity {
 
                 ArrayAdapter adapter2 = new ArrayAdapter(DetailPitchActivity.this, android.R.layout.simple_spinner_item, listNameOfPitchByTypeAndSlot);
                 spPitchName.setAdapter(adapter2);
+
+                //them
+                btnBook.setEnabled(true);
 
                 spPitchName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -355,11 +362,17 @@ public class DetailPitchActivity extends AppCompatActivity {
                             if (Integer.parseInt(hourseNow) > Integer.parseInt(hoursePick.trim())) {
                                 cbSlot.setChecked(false);
                                 Toast.makeText(DetailPitchActivity.this, "Time now more than " + hoursePick + "h" + " in " + txtPickDate.getText().toString(), Toast.LENGTH_SHORT).show();
-                            }else{
+                                ;
+                                return;
+                            } else {
+                                btnBook.setEnabled(true);
                                 if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
                                     loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                                 }
                             }
+                        }
+                        if (keyOfTypePitch != 0 && listIdOfSlot != null && !listIdOfSlot.isEmpty() && resultPick != null) {
+                            loadListPitchDetail(keyOfTypePitch, listIdOfSlot, resultPick.getTime());
                         }
                     }
                 } catch (Exception ex) {
@@ -428,7 +441,7 @@ public class DetailPitchActivity extends AppCompatActivity {
         }
         total = total * priceOfTypePitch;
 
-        if (total == 0) {
+        if (total == 0 || resultPick == null) {
             btnBook.setEnabled(false);
         } else {
             btnBook.setEnabled(true);
